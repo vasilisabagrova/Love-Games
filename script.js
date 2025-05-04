@@ -1,48 +1,52 @@
-const catalogButton = document.querySelector('.catalog-button');
-const dropdown = document.querySelector('.dropdown');
-let isDropdownOpen = false;
-const defaultText = "Общий каталог";
-const openText = "Подборки";
-const dropdownContent = document.querySelector('.dropdown-content');
-const dropdownHeight = dropdownContent.scrollHeight; // Получаем полную высоту
+  let currentStep = 1;
+    const totalSteps = 5;
+    const selectedOptions = {};
+    const basePrices = {};
 
-// Функция для открытия/закрытия дропдауна
-function toggleDropdown(event) {
-    isDropdownOpen = !isDropdownOpen;
-
-    if (isDropdownOpen) {
-        dropdownContent.style.display = 'block'; // Показываем перед анимацией
-        dropdownContent.style.maxHeight = dropdownHeight + 'px'; // Анимируем высоту
-        catalogButton.textContent = openText;
-        event.preventDefault(); // Предотвращаем переход по ссылке
-    } else {
-        dropdownContent.style.maxHeight = '0'; // Анимируем высоту обратно
-        catalogButton.textContent = defaultText;
-        // Задержка перед скрытием, чтобы анимация успела завершиться
-        setTimeout(() => {
-            dropdownContent.style.display = 'none';
-        }, 300); // Время задержки должно соответствовать времени анимации
+    function selectOption(button, step, price) {
+        const stepDiv = document.querySelector(`.step[data-step="${step}"]`);
+        stepDiv.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+        button.classList.add('selected');
+        selectedOptions[step] = button.textContent;
+        basePrices[step] = price;
     }
-}
 
-// Обработчик клика для мобильных устройств
-catalogButton.addEventListener('click', (event) => {
-    toggleDropdown(event);
-});
+    function nextStep() {
+        if (!selectedOptions[currentStep]) {
+            alert('Пожалуйста, выберите вариант!');
+            return;
+        }
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('hidden');
+        currentStep++;
+        if (currentStep <= totalSteps) {
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('hidden');
+            document.getElementById('current-step').textContent = currentStep;
+        } else {
+            document.getElementById('next').classList.add('hidden');
+            document.getElementById('calculate').classList.remove('hidden');
+        }
 
-// Обработчик наведения мыши для устройств с поддержкой hover
-if (window.matchMedia("(hover: hover)").matches) {
-    dropdown.addEventListener('mouseenter', () => {
-        dropdownContent.style.display = 'block';
-        dropdownContent.style.maxHeight = dropdownHeight + 'px';
-        catalogButton.textContent = openText;
-    });
+        updateProgressBar();
+    }
 
-    dropdown.addEventListener('mouseleave', () => {
-        dropdownContent.style.maxHeight = '0';
-        catalogButton.textContent = defaultText;
-        setTimeout(() => {
-            dropdownContent.style.display = 'none';
-        }, 300);
-    });
-}
+    function calculateTotal() {
+        const summaryContent = document.getElementById('summary-content');
+        summaryContent.innerHTML = '';
+        let totalMin = 0;
+        let totalMax = 0;
+
+        Object.keys(selectedOptions).forEach(step => {
+            summaryContent.innerHTML += `<p>${selectedOptions[step]}</p>`;
+            totalMin += basePrices[step];
+            totalMax += basePrices[step] * 1.2;
+        });
+
+        summaryContent.innerHTML += `<p>Итоговая стоимость: от ${totalMin} руб до ${totalMax.toFixed(2)} руб</p>`;
+        document.getElementById('summary').classList.remove('hidden');
+    }
+
+    function updateProgressBar() {
+        const progress = (currentStep - 1) / totalSteps * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+    }
+</script>
