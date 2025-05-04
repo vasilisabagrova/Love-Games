@@ -7,16 +7,18 @@ body {
 }
 
 header nav a {
-  display: inline-block; /* Превращаем ссылку в блочный элемент */
-  padding: 0.5em 1em; /* Добавляем внутренние отступы */
-  margin: 0 0.5em; /* Добавляем внешние отступы */
-  background-color: #f0f0f0; /* Задаем цвет фона */
-  color: #333; /* Задаем цвет текста */
+  display: inline-block;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc; /* Серая обводка */
+  border-radius: 20px; /* Скругленные углы */
+  padding: 0.5em 1em;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s ease; /* Плавный переход цвета */
   text-decoration: none; /* Убираем подчеркивание */
-  border: 1px solid #ccc; /* Добавляем рамку */
-  border-radius: 5px; /* Скругляем углы */
-  font-size: 1em; /* Задаем размер шрифта */
-  cursor: pointer; /* Меняем курсор при наведении */
+  color: #333; /* Задаем цвет текста */
+  margin: 0 0.5em; /* Добавляем отступы между кнопками */
 }
 
 header nav a:hover {
