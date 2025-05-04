@@ -12,3 +12,12 @@ catalogButton.addEventListener('mouseout', () => {
   // Возвращаем исходный текст кнопки "Общий каталог"
   catalogButton.textContent = 'Общий каталог';
 });
+const catalogButton = document.querySelector('.catalog-button');
+
+catalogButton.addEventListener('touchstart', () => {
+    catalogButton.textContent = 'Открыть каталог';
+});
+
+catalogButton.addEventListener('touchend', () => {
+    catalogButton.textContent = 'Общий каталог';
+});
