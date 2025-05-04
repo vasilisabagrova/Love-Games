@@ -35,24 +35,82 @@ header nav {
   margin-bottom: 1em; /* Добавляем отступ снизу */
 }
 
-header nav a {
+/* Стили для кнопки "Общий каталог" и выпадающего списка */
+.dropdown {
+  position: relative; /* Важно для позиционирования выпадающего списка */
+  display: inline-block;
+  margin: 0 0.5em; /* Отступы между кнопками */
+}
+
+.catalog-button {
   display: inline-block;
   background-color: #f0f0f0;
-  border: 1px solid #ccc; /* Серая обводка */
-  border-radius: 20px; /* Скругленные углы */
+  border: 1px solid #ccc;
+  border-radius: 20px;
   padding: 0.5em 1em;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  transition: background-color 0.3s ease; /* Плавный переход цвета */
-  text-decoration: none; /* Убираем подчеркивание */
-  color: #333; /* Задаем цвет текста */
-  margin: 0 0.5em; /* Добавляем отступы между кнопками */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход */
+  text-decoration: none;
+  color: #333;
+}
+
+.catalog-button:hover {
+  background-color: #fddede;
+  color: #333;
+}
+
+.dropdown-content {
+  display: none; /* Скрываем выпадающий список по умолчанию */
+  position: absolute;
+  top: 100%; /* Позиционируем под кнопкой */
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.8); /* Прозрачный фон */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.5em;
+  z-index: 1; /* Обеспечиваем отображение поверх других элементов */
+  min-width: 160px; /* Минимальная ширина списка */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Тень */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Показываем список при наведении на .dropdown */
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  display: block; /* Размещаем ссылки друг под другом */
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd; /* Цвет фона при наведении на элементы списка */
+}
+
+/* Остальные стили (Для нее, Для него, Для подарка) */
+header nav a {
+  display: inline-block;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  color: #333;
+  margin: 0 0.5em;
 }
 
 header nav a:hover,
 header nav a:active {
-  background-color: #fddede; /* Светло-красный цвет при наведении/нажатии */
+  background-color: #fddede;
 }
 
 /* Стили для основного контента */
@@ -78,13 +136,13 @@ main {
 /* Стили для кнопки в основном контенте */
 #content button {
   background-color: #f0f0f0;
-  border: 1px solid #ccc; /* Серая обводка */
-  border-radius: 20px; /* Скругленные углы */
+  border: 1px solid #ccc;
+  border-radius: 20px;
   padding: 0.5em 1em;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  transition: background-color 0.3s ease; /* Плавный переход цвета */
+  transition: background-color 0.3s ease;
 }
 
 #content button:hover {
