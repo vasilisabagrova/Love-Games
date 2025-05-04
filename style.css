@@ -7,6 +7,11 @@ body {
 }
 
 header nav a {
+  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+  color: #333;
+  padding: 1em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Небольшая тень */
   display: inline-block;
   background-color: #f0f0f0;
   border: 1px solid #ccc; /* Серая обводка */
