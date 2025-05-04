@@ -1,13 +1,15 @@
 const catalogButton = document.querySelector('.catalog-button');
 const dropdown = document.querySelector('.dropdown');
 let isDropdownOpen = false;
+const defaultText = "Общий каталог";
+const openText = "Подборки";
 
 // Функция для открытия/закрытия дропдауна
 function toggleDropdown(event) {
     isDropdownOpen = !isDropdownOpen;
     const dropdownContent = document.querySelector('.dropdown-content');
     dropdownContent.style.display = isDropdownOpen ? 'block' : 'none';
-    catalogButton.textContent = isDropdownOpen ? 'Открыть каталог' : 'Общий каталог';
+    catalogButton.textContent = isDropdownOpen ? openText : defaultText;
 
     // Предотвращаем переход по ссылке, если это первый клик
     if (isDropdownOpen) {
@@ -25,12 +27,12 @@ if (window.matchMedia("(hover: hover)").matches) {
     dropdown.addEventListener('mouseenter', () => {
         const dropdownContent = document.querySelector('.dropdown-content');
         dropdownContent.style.display = 'block';
-        catalogButton.textContent = 'Открыть каталог';
+        catalogButton.textContent = openText;
     });
 
     dropdown.addEventListener('mouseleave', () => {
         const dropdownContent = document.querySelector('.dropdown-content');
         dropdownContent.style.display = 'none';
-        catalogButton.textContent = 'Общий каталог';
+        catalogButton.textContent = defaultText;
     });
 }
