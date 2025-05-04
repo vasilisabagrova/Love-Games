@@ -1,204 +1,58 @@
-/* Общие стили */
 body {
-  font-family: 'Montserrat', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #fff;
-  color: #333;
-}
-
-/* Стили для хедера */
-header {
-  background-color: #fff;
-  padding: 1em;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-}
-
-header h1 {
-  margin: 0;
-  font-family: 'Crete Round', serif;
-  font-weight: normal;
-  font-size: 2em;
-  color: #e44d26; /* Оранжевый цвет для заголовка */
-}
-
-header p {
-  font-size: 0.9em;
-  color: #777;
-}
-
-/* Стили для навигации в хедере */
-header nav {
-  display: flex;
-  justify-content: center; /* Центрируем кнопки по горизонтали */
-  margin-bottom: 1em; /* Добавляем отступ снизу */
-  flex-wrap: wrap; /* Разрешаем перенос кнопок на новую строку */
-}
-
-/* Стили для кнопки "Общий каталог" и выпадающего списка */
-.dropdown {
-  position: relative; /* Важно для позиционирования выпадающего списка */
-  display: inline-block;
-  margin: 0.5em; /* Отступы между кнопками */
-}
-
-.catalog-button {
-  display: inline-block;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 0.5em 1em;
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход */
-  text-decoration: none;
-  color: #333;
-}
-
-/* Стили для устройств с поддержкой hover (мышь) */
-@media (hover: hover) {
-    .catalog-button:hover {
-        background-color: #fddede;
-        color: #333;
-    }
-
-    .dropdown:hover .dropdown-content {
-        display: block; /* Показываем список при наведении на .dropdown */
-    }
-}
-
-.dropdown-content {
-  display: none; /* Скрываем выпадающий список по умолчанию */
-  position: absolute;
-  top: 100%; /* Позиционируем под кнопкой */
-  left: 0;
-  background-color: rgba(255, 255, 255, 0.8); /* Прозрачный фон */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 0.5em;
-  z-index: 1; /* Обеспечиваем отображение поверх других элементов */
-  min-width: 160px; /* Минимальная ширина списка */
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Тень */
-}
-
-/* Стили для кнопок в подменю (скругленные) */
-.dropdown-content a {
-  color: #333;
-  padding: 0.5em 1em;
-  text-decoration: none;
-  display: block; /* Размещаем ссылки друг под другом */
-  transition: background-color 0.3s ease;
-  border-radius: 20px; /* Скругленные углы для кнопок подменю */
-  margin: 0.25em 0; /* Отступы сверху и снизу для кнопок подменю */
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd; /* Цвет фона при наведении на элементы списка */
-}
-
-/* Остальные стили (Для нее, Для него, Для подарка) */
-header nav a {
-  display: inline-block;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 0.5em 1em;
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-  color: #333;
-  margin: 0.5em;
-}
-
-header nav a:hover,
-header nav a:active {
-  background-color: #fddede;
-}
-
-/* Медиа-запросы для маленьких экранов */
-@media (max-width: 768px) {
-  header {
-    padding: 0.5em;
-  }
-
-  header h1 {
-    font-size: 1.5em;
-  }
-
-  header nav {
-    flex-direction: column; /* Размещаем кнопки навигации вертикально */
-    align-items: center; /* Центрируем кнопки по горизонтали */
-  }
-
-  header nav a, .dropdown {
-    margin: 0.25em;
-    width: 90%; /* Занимают почти всю ширину экрана */
-    text-align: center;
-  }
-
-  .dropdown-content {
-    position: static; /* Убираем абсолютное позиционирование */
-    display: none; /* Скрываем по умолчанию */
-    width: 100%;
-    box-shadow: none; /* Убираем тень */
-    border: none;
-    background-color: transparent;
-    padding: 0; /* Убираем отступы у контейнера */
-  }
-
-  .dropdown-content a {
-    border-bottom: 1px solid #eee;
-    border-radius: 0; /* Убираем скругление на мобильных */
+    font-family: Arial, sans-serif;
     margin: 0;
-  }
+    padding: 20px;
+    background-color: #f9f9f9;
 }
 
-/* Стили для основного контента */
-main {
-  padding: 2em;
+h3 {
+    color: #333;
 }
 
-#content {
-  text-align: center;
+.step {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#content h2 {
-  font-size: 1.5em;
-  margin-bottom: 0.5em;
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-#content p {
-  font-size: 1.1em;
-  line-height: 1.5;
-  margin-bottom: 1em;
+button:hover {
+    background-color: #45a049;
 }
 
-/* Стили для кнопки в основном контенте */
-#content button {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 0.5em 1em;
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
+.selected {
+    background-color: lightpink;
 }
 
-#content button:hover {
-  background-color: #e0e0e0;
+.progress {
+    font-size: 18px;
+    margin: 20px 0;
 }
 
-/* Стили для футера */
-footer {
-  background-color: #f0f0f0;
-  padding: 1em;
-  text-align: center;
-  border-top: 1px solid #eee;
-  font-size: 0.8em;
-  color: #777;
+.hidden {
+    display: none;
 }
+
+.table {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table p {
+    margin: 5
