@@ -1,23 +1,36 @@
-// Получаем ссылку на кнопку "Общий каталог"
 const catalogButton = document.querySelector('.catalog-button');
+const dropdown = document.querySelector('.dropdown');
+let isDropdownOpen = false;
 
-// Добавляем обработчик события на наведение мыши (mouseover)
-catalogButton.addEventListener('mouseover', () => {
-  // Меняем текст кнопки на "Открыть каталог"
-  catalogButton.textContent = 'Открыть каталог';
+// Функция для открытия/закрытия дропдауна
+function toggleDropdown(event) {
+    isDropdownOpen = !isDropdownOpen;
+    const dropdownContent = document.querySelector('.dropdown-content');
+    dropdownContent.style.display = isDropdownOpen ? 'block' : 'none';
+    catalogButton.textContent = isDropdownOpen ? 'Открыть каталог' : 'Общий каталог';
+
+    // Предотвращаем переход по ссылке, если это первый клик
+    if (isDropdownOpen) {
+        event.preventDefault();
+    }
+}
+
+// Обработчик клика для мобильных устройств
+catalogButton.addEventListener('click', (event) => {
+    toggleDropdown(event);
 });
 
-// Добавляем обработчик события на уход мыши (mouseout)
-catalogButton.addEventListener('mouseout', () => {
-  // Возвращаем исходный текст кнопки "Общий каталог"
-  catalogButton.textContent = 'Общий каталог';
-});
-const catalogButton = document.querySelector('.catalog-button');
+// Обработчик наведения мыши для устройств с поддержкой hover
+if (window.matchMedia("(hover: hover)").matches) {
+    dropdown.addEventListener('mouseenter', () => {
+        const dropdownContent = document.querySelector('.dropdown-content');
+        dropdownContent.style.display = 'block';
+        catalogButton.textContent = 'Открыть каталог';
+    });
 
-catalogButton.addEventListener('touchstart', () => {
-    catalogButton.textContent = 'Открыть каталог';
-});
-
-catalogButton.addEventListener('touchend', () => {
-    catalogButton.textContent = 'Общий каталог';
-});
+    dropdown.addEventListener('mouseleave', () => {
+        const dropdownContent = document.querySelector('.dropdown-content');
+        dropdownContent.style.display = 'none';
+        catalogButton.textContent = 'Общий каталог';
+    });
+}
