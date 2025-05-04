@@ -87,7 +87,44 @@ button:hover {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
 
+.menu li {
+  margin-right: 1em;
+  position: relative; /* Важно для позиционирования подменю */
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f0f0f0;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 1; /* Чтобы подменю было над другими элементами */
+}
+
+.submenu.active {
+  display: block;
+}
+
+.menu-item a {
+  display: block;
+  padding: 0.5em;
+  text-decoration: none;
+  color: #333;
+}
+
+.menu-item a:hover {
+  background-color: #e0e0e0
+    
 .product-item {
   width: 200px;
   margin: 10px;
