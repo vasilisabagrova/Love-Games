@@ -1,0 +1,96 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #f0f0f0, #e0e0e0); /* Светло-серый градиент */
+  color: #333; /* Темно-серый текст для контраста */
+}
+
+header {
+  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+  color: #333;
+  padding: 1em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+}
+
+main {
+  padding: 1em;
+}
+
+section {
+  margin-bottom: 1em;
+  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+  padding: 1em;
+  border-radius: 10px; /* Скругленные углы */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+}
+
+h1, h2, h3 {
+  font-weight: 600; /* Montserrat средней толщины */
+}
+
+p {
+  font-family: 'Crete Round', serif;
+  font-weight: 400; /* Crete Round обычной толщины */
+}
+
+a {
+  color: #007bff; /* Синий цвет ссылок */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+/* Стили для кнопок */
+button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc; /* Серая обводка */
+  border-radius: 20px; /* Скругленные углы */
+  padding: 0.5em 1em;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+
+button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Стили для активных разделов (пример) */
+.active {
+  border: 2px solid red; /* Красная обводка */
+}
+
+/* Стили для списка товаров */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.product-item {
+  width: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  border-radius: 10px; /* Скругленные углы */
+  background-color: white;
+}
+
+.product-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Стили для футера */
+footer {
+  text-align: center;
+  padding: 1em;
+  background-color: #333;
+  color: white;
+}
