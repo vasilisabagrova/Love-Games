@@ -33,13 +33,14 @@ header nav {
   display: flex;
   justify-content: center; /* Центрируем кнопки по горизонтали */
   margin-bottom: 1em; /* Добавляем отступ снизу */
+  flex-wrap: wrap; /* Разрешаем перенос кнопок на новую строку */
 }
 
 /* Стили для кнопки "Общий каталог" и выпадающего списка */
 .dropdown {
   position: relative; /* Важно для позиционирования выпадающего списка */
   display: inline-block;
-  margin: 0 0.5em; /* Отступы между кнопками */
+  margin: 0.5em; /* Отступы между кнопками */
 }
 
 .catalog-button {
@@ -56,9 +57,16 @@ header nav {
   color: #333;
 }
 
-.catalog-button:hover {
-  background-color: #fddede;
-  color: #333;
+/* Стили для устройств с поддержкой hover (мышь) */
+@media (hover: hover) {
+    .catalog-button:hover {
+        background-color: #fddede;
+        color: #333;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block; /* Показываем список при наведении на .dropdown */
+    }
 }
 
 .dropdown-content {
@@ -75,17 +83,15 @@ header nav {
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Тень */
 }
 
-.dropdown:hover .dropdown-content {
-  display: block; /* Показываем список при наведении на .dropdown */
-}
-
+/* Стили для кнопок в подменю (скругленные) */
 .dropdown-content a {
   color: #333;
   padding: 0.5em 1em;
   text-decoration: none;
   display: block; /* Размещаем ссылки друг под другом */
   transition: background-color 0.3s ease;
-  border-radius: 5px;
+  border-radius: 20px; /* Скругленные углы для кнопок подменю */
+  margin: 0.25em 0; /* Отступы сверху и снизу для кнопок подменю */
 }
 
 .dropdown-content a:hover {
@@ -105,12 +111,50 @@ header nav a {
   transition: background-color 0.3s ease;
   text-decoration: none;
   color: #333;
-  margin: 0 0.5em;
+  margin: 0.5em;
 }
 
 header nav a:hover,
 header nav a:active {
   background-color: #fddede;
+}
+
+/* Медиа-запросы для маленьких экранов */
+@media (max-width: 768px) {
+  header {
+    padding: 0.5em;
+  }
+
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  header nav {
+    flex-direction: column; /* Размещаем кнопки навигации вертикально */
+    align-items: center; /* Центрируем кнопки по горизонтали */
+  }
+
+  header nav a, .dropdown {
+    margin: 0.25em;
+    width: 90%; /* Занимают почти всю ширину экрана */
+    text-align: center;
+  }
+
+  .dropdown-content {
+    position: static; /* Убираем абсолютное позиционирование */
+    display: none; /* Скрываем по умолчанию */
+    width: 100%;
+    box-shadow: none; /* Убираем тень */
+    border: none;
+    background-color: transparent;
+    padding: 0; /* Убираем отступы у контейнера */
+  }
+
+  .dropdown-content a {
+    border-bottom: 1px solid #eee;
+    border-radius: 0; /* Убираем скругление на мобильных */
+    margin: 0;
+  }
 }
 
 /* Стили для основного контента */
