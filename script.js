@@ -1,32 +1,14 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Получаем все элементы подменю
-  const submenus = document.querySelectorAll('.submenu');
+// Получаем ссылку на кнопку "Общий каталог"
+const catalogButton = document.querySelector('.catalog-button');
 
-  // Добавляем обработчик клика к каждому элементу меню, у которого есть подменю
-  const menuItemsWithSubmenus = document.querySelectorAll('.menu-item.has-submenu');
-  menuItemsWithSubmenus.forEach(item => {
-    item.addEventListener('click', function(event) {
-      event.preventDefault(); // Предотвращаем переход по ссылке
+// Добавляем обработчик события на наведение мыши (mouseover)
+catalogButton.addEventListener('mouseover', () => {
+  // Меняем текст кнопки на "Открыть каталог"
+  catalogButton.textContent = 'Открыть каталог';
+});
 
-      // Закрываем все открытые подменю
-      submenus.forEach(submenu => {
-        if (submenu !== this.querySelector('.submenu')) {
-          submenu.classList.remove('active');
-        }
-      });
-
-      // Открываем или закрываем текущее подменю
-      const submenu = this.querySelector('.submenu');
-      submenu.classList.toggle('active');
-    });
-  });
-
-  // Закрываем подменю при клике за пределами меню
-  document.addEventListener('click', function(event) {
-    if (!event.target.closest('.menu')) {
-      submenus.forEach(submenu => {
-        submenu.classList.remove('active');
-      });
-    }
-  });
+// Добавляем обработчик события на уход мыши (mouseout)
+catalogButton.addEventListener('mouseout', () => {
+  // Возвращаем исходный текст кнопки "Общий каталог"
+  catalogButton.textContent = 'Общий каталог';
 });
