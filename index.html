@@ -3,48 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love-Games</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crete+Round&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="script.js" defer></script>
+    <title>Выбор услуг</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .step { margin: 20px 0; }
+        .selected { background-color: lightpink; }
+        .progress { margin: 20px 0; }
+        .hidden { display: none; }
+        .table { margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Love-Games</h1>
-        <nav>
-            <div class="dropdown">
-                <a href="#" class="catalog-button">Общий каталог</a>
-                <div class="dropdown-content">
-                    <a href="/catalog">Все подборки</a>
-                    <a href="#">Лубриканты</a>
-                    <a href="#">Вибраторы</a>
-                    <a href="#">Фаллоимитаторы</a>
-                    <a href="#">Мужские товары</a>
-                    <a href="#">Женское здоровье</a>
-                    <a href="#">БДСМ</a>
-                    <a href="#">Анальные товары</a>
-                    <a href="#">Игры для двоих</a>
-                </div>
-            </div>
-            <a href="/for-her">Для нее</a>
-            <a href="/for-him">Для него</a>
-            <a href="/gifts">Для подарка</a>
-        </nav>
-        <p>Проверка работоспособности GitHub Pages</p>
-    </header>
 
-    <main>
-        <section id="content">
-            <h2>Добро пожаловать в Love-Games!</h2>
-            <p>Здесь вы найдете самые интересные и захватывающие игры для двоих.</p>
-            <button>Узнать больше</button>
-        </section>
-    </main>
+<div id="progress" class="progress">Шаг <span id="current-step">1</span> из 5</div>
 
-    <footer>
-        <p>&copy; 2024 Vasilisa Bagrova</p>
-    </footer>
+<div id="steps">
+    <div class="step" data-step="1">
+        <h3>Коробка</h3>
+        <button onclick="selectOption(this, 1, 150)">Крафтовая из гофрокартона - от 150 руб</button>
+        <button onclick="selectOption(this, 1, 350)">Коробка из толстого картона - от 350 руб</button>
+        <button onclick="selectOption(this, 1, 550)">Премиум коробка - от 550 руб</button>
+        <button onclick="selectOption(this, 1, 0)">Без коробки - 0 руб</button>
+    </div>
+    <div class="step hidden" data-step="2">
+        <h3>Наполнитель</h3>
+        <button onclick="selectOption(this, 2, 50)">Подложка из бумаги тишью - 50 руб</button>
+        <button onclick="selectOption(this, 2, 200)">Бумажный наполнитель гофрированный - 200 руб</button>
+        <button onclick="selectOption(this, 2, 200)">Тишью наполнитель - 200 руб</button>
+        <button onclick="selectOption(this, 2, 350)">Пенопластовый наполнитель - 350 руб</button>
+        <button onclick="selectOption(this, 2, 250)">Наполнитель из перьев - 250 руб</button>
+        <button onclick="selectOption(this, 2, 150)">Наполнитель из атласных сердец - от 150 до 400 руб</button>
+        <button onclick="selectOption(this, 2, 0)">Без наполнителя - 0 руб</button>
+    </div>
+    <div class="step hidden" data-step="3">
+        <h3>Оберточка для коробки</h3>
+        <button onclick="selectOption(this, 3, 200)">Крафтовая бумага без цвета (бежевая) - 200 руб</button>
+        <button onclick="selectOption(this, 3, 450)">Крафтовая бумага с выбором цвета и принтов - от 450 руб</button>
+        <button onclick="selectOption(this, 3, 350)">Оберточная бумага с выбором цвета и принтов - от 350 руб</button>
+        <button onclick="selectOption(this, 3, 0)">Без обертки - 0 руб</button>
+    </div>
+    <div class="step hidden" data-step="4">
+        <h3>Открытка</h3>
+        <button onclick="selectOption(this, 4, 50)">Мини открытка 10 см - 50 руб</button>
+        <button onclick="selectOption(this, 4, 500)">Открытка с 3D-разворотом - 500 руб</button>
+        <button onclick="selectOption(this, 4, 450)">Аудио открытка с вашим голосовым сообщением - 450 руб</button>
+        <button onclick="selectOption(this, 4, 0)">Без открытки - 0 руб</button>
+    </div>
+    <div class="step hidden" data-step="5">
+        <h3>Пакет</h3>
+        <button onclick="selectOption(this, 5, 0)">Крафтовый пакет с бантом - 0 руб</button>
+        <button onclick="selectOption(this, 5, 200)">Крафтовый пакет с бантом с выбором цвета принта или надписей - от 200 руб</button>
+        <button onclick="selectOption(this, 5, 350)">Пакет из картона с ручками из лент - от 350 руб</button>
+    </div>
+</div>
+
+<button id="next" onclick="nextStep()">Далее</button>
+<button id="calculate" class="hidden" onclick="calculateTotal()">Расчет</button>
+
+<div id="summary" class="table hidden">
+    <h3>Итоговая таблица</h3>
+    <div id="summary-content"></div>
+</div>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 5;
+    const selectedOptions = {};
+    const basePrices = {};
+
+    function selectOption(button, step, price) {
+        const stepDiv = document.querySelector(`.step[data-step="${step}"]`);
+        stepDiv.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
+        button.classList.add('selected');
+        selectedOptions[step] = button.textContent;
+        basePrices[step] = price;
+    }
+
+    function nextStep() {
+        if (!selectedOptions[currentStep]) {
+            alert('Пожалуйста, выберите вариант!');
+            return;
+        }
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('hidden');
+        currentStep++;
+        if (currentStep <= totalSteps) {
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('hidden');
+            document.getElementById('current-step').textContent = currentStep;
+        } else {
+            document.getElementById('next').classList.add('hidden');
+            document.getElementById('calculate').classList.remove('hidden');
+        }
+    }
+
+    function calculateTotal() {
+        const summaryContent = document.getElementById('summary-content');
+        summaryContent.innerHTML = '';
+        let totalMin = 0;
+        let totalMax = 0;
+
+        Object.keys(selectedOptions).forEach(step => {
+            summaryContent.innerHTML += `<p>${selectedOptions[step]}</p>`;
+            totalMin += basePrices[step];
+            totalMax += basePrices[step] * 1.2;
+        });
+
+        summaryContent.innerHTML += `<p>Итоговая стоимость: от ${totalMin} руб до ${totalMax.toFixed(2)} руб</p>`;
+        document.getElementById('summary').classList.remove('hidden');
+    }
+</script>
+
 </body>
 </html>
