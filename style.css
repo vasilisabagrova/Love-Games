@@ -6,12 +6,21 @@ body {
   color: #333; /* Темно-серый текст для контраста */
 }
 
-header {
-  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
-  color: #333;
-  padding: 1em;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+header nav a {
+  display: inline-block; /* Превращаем ссылку в блочный элемент */
+  padding: 0.5em 1em; /* Добавляем внутренние отступы */
+  margin: 0 0.5em; /* Добавляем внешние отступы */
+  background-color: #f0f0f0; /* Задаем цвет фона */
+  color: #333; /* Задаем цвет текста */
+  text-decoration: none; /* Убираем подчеркивание */
+  border: 1px solid #ccc; /* Добавляем рамку */
+  border-radius: 5px; /* Скругляем углы */
+  font-size: 1em; /* Задаем размер шрифта */
+  cursor: pointer; /* Меняем курсор при наведении */
+}
+
+header nav a:hover {
+  background-color: #e0e0e0; /* Меняем цвет фона при наведении */
 }
 
 main {
