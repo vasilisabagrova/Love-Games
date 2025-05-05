@@ -76,21 +76,28 @@
             <div class="product-suggestions" id="product-suggestions-5"></div>
         </div>
 
+        <div class="step hidden" data-step="6">
+            <h2>Расчет стоимости</h2>
+            <div id="selected-products-summary">
+                <h3>Выбранные товары:</h3>
+                <div id="selected-products-list-summary"></div>
+            </div>
+            <div id="summary">
+                <h2>Итоговая стоимость:</h2>
+                <div id="summary-content"></div>
+            </div>
+        </div>
+
         <div class="buttons">
             <button id="back" onclick="prevStep()" class="hidden">Назад</button>
             <button id="next" onclick="nextStep()">Вперед</button>
-            <button id="calculate" onclick="calculateTotal()" class="hidden">Рассчитать</button>
+            <button id="calculate" onclick="showCalculationStep()" class="hidden">Рассчитать</button>
         </div>
 
         <div id="selected-products">
             <h3>Выбранные товары:</h3>
             <div id="selected-products-list"></div>
             <button onclick="removeAllAdditionalProducts()">Удалить все дополнительные товары</button>
-        </div>
-
-        <div id="summary" class="hidden">
-            <h2>Итоговая стоимость:</h2>
-            <div id="summary-content"></div>
         </div>
     </div>
 
