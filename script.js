@@ -1,52 +1,215 @@
-  let currentStep = 1;
-    const totalSteps = 5;
-    const selectedOptions = {};
-    const basePrices = {};
+let currentStep = 1;
+const totalSteps = 5;
+const selectedOptions = {};
+const basePrices = {};
+let additionalProductsTotal = 0; // Track additional products' price
 
-    function selectOption(button, step, price) {
-        const stepDiv = document.querySelector(`.step[data-step="${step}"]`);
-        stepDiv.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
-        button.classList.add('selected');
-        selectedOptions[step] = button.textContent;
-        basePrices[step] = price;
-    }
-
-    function nextStep() {
-        if (!selectedOptions[currentStep]) {
-            alert('Пожалуйста, выберите вариант!');
-            return;
-        }
-        document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('hidden');
-        currentStep++;
-        if (currentStep <= totalSteps) {
-            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('hidden');
-            document.getElementById('current-step').textContent = currentStep;
-        } else {
-            document.getElementById('next').classList.add('hidden');
-            document.getElementById('calculate').classList.remove('hidden');
-        }
-
-        updateProgressBar();
-    }
-
-    function calculateTotal() {
-        const summaryContent = document.getElementById('summary-content');
-        summaryContent.innerHTML = '';
-        let totalMin = 0;
-        let totalMax = 0;
-
-        Object.keys(selectedOptions).forEach(step => {
-            summaryContent.innerHTML += `<p>${selectedOptions[step]}</p>`;
-            totalMin += basePrices[step];
-            totalMax += basePrices[step] * 1.2;
-        });
-
-        summaryContent.innerHTML += `<p>Итоговая стоимость: от ${totalMin} руб до ${totalMax.toFixed(2)} руб</p>`;
-        document.getElementById('summary').classList.remove('hidden');
-    }
-
-    function updateProgressBar() {
-        const progress = (currentStep - 1) / totalSteps * 100;
-        document.getElementById('progress-bar').style.width = `${progress}%`;
-    }
-</script>
+// Sample product data (replace with your actual data)
+const productData = {
+    1: { // Step 1: Boxes
+        kraft: [
+            { name: "Гофрокоробка 1", price: 500, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 2", price: 600, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 3", price: 700, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 4", price: 500, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 5", price: 600, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 6", price: 700, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 7", price: 500, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 8", price: 600, image: "https://via.placeholder.com/100" },
+            { name: "Гофрокоробка 9", price: 700, image: "https://via.placeholder.com/100" }
+        ],
+        thick: [
+            { name: "Толстая коробка 1", price: 800, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 2", price: 900, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 3", price: 1000, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 4", price: 800, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 5", price: 900, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 6", price: 1000, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 7", price: 800, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 8", price: 900, image: "https://via.placeholder.com/100" },
+            { name: "Толстая коробка 9", price: 1000, image: "https://via.placeholder.com/100" }
+        ],
+        premium: [
+            { name: "Премиум коробка 1", price: 1100, image: "https://via.placeholder.com/100" },
+            { name: "Премиум коробка 2", price: 1200, image: "https://via.placeholder.com/100" },
+            { name: "Премиум коробка 3", price: 1300, image: "https://via.placeholder.com/100" },
+             { name: "Премиум коробка 4", price: 1100, image: "https://via.placeholder.com/100" },
+            { name: "Премиум коробка 5", price: 1200, image: "https://via.placeholder.com/100" },
+            { name: "Премиум коробка 6", price: 1300, image: "https://via.placeholder.com/100" },
+             { name: "Премиум коробка 7", price: 1100, image: "https://via.placeholder.com/100" },
+            { name: "Премиум коробка 8", price: 1200, image: "https://via.placeholder.com/100" },
+            { name: "Премиум коробка 9", price: 1300, image: "https://via.placeholder.com/100" }
+        ],
+        none: [] // No products
+    },
+    2: { // Step 2: Fillers
+        tissue: [
+             { name: "tissue 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "tissue 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "tissue 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "tissue 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "tissue 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "tissue 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "tissue 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "tissue 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "tissue 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        paper: [
+            { name: "paper 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "paper 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "paper 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "paper 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "paper 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "paper 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "paper 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "paper 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "paper 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        tishue: [
+            { name: "tishue 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "tishue 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "tishue 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "tishue 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "tishue 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "tishue 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "tishue 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "tishue 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "tishue 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        foam: [
+            { name: "foam 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "foam 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "foam 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "foam 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "foam 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "foam 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "foam 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "foam 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "foam 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        feathers: [
+            { name: "feathers 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "feathers 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "feathers 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "feathers 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "feathers 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "feathers 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "feathers 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "feathers 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "feathers 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        hearts: [
+            { name: "hearts 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "hearts 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "hearts 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "hearts 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "hearts 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "hearts 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "hearts 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "hearts 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "hearts 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        none: []
+    },
+    3: { // Step 3: Wrapping
+        kraft_plain: [
+             { name: "kraft_plain 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "kraft_plain 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "kraft_plain 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "kraft_plain 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "kraft_plain 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "kraft_plain 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "kraft_plain 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "kraft_plain 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "kraft_plain 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        kraft_color: [
+             { name: "kraft_color 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "kraft_color 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "kraft_color 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "kraft_color 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "kraft_color 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "kraft_color 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "kraft_color 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "kraft_color 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "kraft_color 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        wrapping_color: [
+             { name: "wrapping_color 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "wrapping_color 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "wrapping_color 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "wrapping_color 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "wrapping_color 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "wrapping_color 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "wrapping_color 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "wrapping_color 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "wrapping_color 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        none: []
+    },
+    4: { // Step 4: Cards
+        mini: [
+             { name: "mini 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "mini 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "mini 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "mini 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "mini 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "mini 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "mini 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "mini 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "mini 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        3d: [
+             { name: "3d 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "3d 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "3d 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "3d 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "3d 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "3d 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "3d 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "3d 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "3d 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        audio: [
+             { name: "audio 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "audio 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "audio 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "audio 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "audio 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "audio 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "audio 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "audio 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "audio 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        none: []
+    },
+    5: { // Step 5: Packages
+        kraft_bow: [
+             { name: "kraft_bow 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "kraft_bow 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "kraft_bow 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "kraft_bow 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "kraft_bow 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "kraft_bow 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "kraft_bow 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "kraft_bow 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "kraft_bow 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        kraft_color_bow: [
+             { name: "kraft_color_bow 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "kraft_color_bow 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "kraft_color_bow 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "kraft_color_bow 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "kraft_color_bow 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "kraft_color_bow 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "kraft_color_bow 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "kraft_color_bow 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "kraft_color_bow 9", price: 100, image: "https://via.placeholder.com/100" }
+        ],
+        cardboard_ribbon: [
+             { name: "cardboard_ribbon 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "cardboard_ribbon 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "cardboard_ribbon 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "cardboard_ribbon 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "cardboard_ribbon 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "cardboard_
