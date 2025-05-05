@@ -3,91 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выбор услуг</title>
+    <title>Конфигуратор подарочной упаковки</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Конфигуратор подарочной упаковки</h1>
+        <div class="progress">
+            <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+        </div>
+        <p>Текущий шаг: <span id="current-step">1</span> из 5</p>
 
-<div id="progress" class="progress">Шаг <span id="current-step">1</span> из 5</div>
-<div class="progress-bar-container">
-    <div id="progress-bar" class="progress-bar"></div>
-</div>
+        <div class="step" data-step="1">
+            <h2>Шаг 1: Выберите коробку</h2>
+            <div class="options">
+                <button data-product-type="kraft" onclick="selectOption(this, 1, 500)">Крафт коробка - 500 руб</button>
+                <button data-product-type="thick" onclick="selectOption(this, 1, 800)">Плотная коробка - 800 руб</button>
+                <button data-product-type="premium" onclick="selectOption(this, 1, 1100)">Премиум коробка - 1100 руб</button>
+                <button data-product-type="none" onclick="selectOption(this, 1, 0)">Без коробки - 0 руб</button>
+            </div>
+            <h3>Предложения:</h3>
+            <div class="product-suggestions" id="product-suggestions-1"></div>
+        </div>
 
-<div id="steps">
+        <div class="step hidden" data-step="2">
+            <h2>Шаг 2: Выберите наполнитель</h2>
+            <div class="options">
+                <button data-product-type="tissue" onclick="selectOption(this, 2, 100)">Тишью наполнитель - 100 руб</button>
+                <button data-product-type="paper" onclick="selectOption(this, 2, 150)">Бумажный наполнитель - 150 руб</button>
+                <button data-product-type="foam" onclick="selectOption(this, 2, 200)">Поролоновый наполнитель - 200 руб</button>
+                <button data-product-type="feathers" onclick="selectOption(this, 2, 250)">Перья - 250 руб</button>
+                <button data-product-type="hearts" onclick="selectOption(this, 2, 300)">Сердечки - 300 руб</button>
+                <button data-product-type="none" onclick="selectOption(this, 2, 0)">Без наполнителя - 0 руб</button>
+            </div>
+            <h3>Предложения:</h3>
+            <div class="product-suggestions" id="product-suggestions-2"></div>
+        </div>
 
-    <div class="step" data-step="1">
-        <h3>Коробка</h3>
-        <button data-product-type="kraft" onclick="selectOption(this, 1, 150)">Крафтовая из гофрокартона - от 150 руб</button>
-        <button data-product-type="thick" onclick="selectOption(this, 1, 350)">Коробка из толстого картона - от 350 руб</button>
-        <button data-product-type="premium" onclick="selectOption(this, 1, 550)">Премиум коробка - от 550 руб</button>
-        <button data-product-type="none" onclick="selectOption(this, 1, 0)">Без коробки - 0 руб</button>
+        <div class="step hidden" data-step="3">
+            <h2>Шаг 3: Выберите обертку</h2>
+            <div class="options">
+                <button data-product-type="kraft_plain" onclick="selectOption(this, 3, 150)">Крафт однотонная - 150 руб</button>
+                <button data-product-type="kraft_color" onclick="selectOption(this, 3, 200)">Крафт цветная - 200 руб</button>
+                <button data-product-type="wrapping_color" onclick="selectOption(this, 3, 250)">Цветная обертка - 250 руб</button>
+                <button data-product-type="none" onclick="selectOption(this, 3, 0)">Без обертки - 0 руб</button>
+            </div>
+            <h3>Предложения:</h3>
+            <div class="product-suggestions" id="product-suggestions-3"></div>
+        </div>
 
-        <div class="product-suggestions" id="product-suggestions-1">
-            <!-- Product Suggestions for Step 1 will be dynamically loaded here -->
+        <div class="step hidden" data-step="4">
+            <h2>Шаг 4: Выберите открытку</h2>
+            <div class="options">
+                <button data-product-type="mini" onclick="selectOption(this, 4, 200)">Мини открытка - 200 руб</button>
+                <button data-product-type="3d" onclick="selectOption(this, 4, 300)">3D открытка - 300 руб</button>
+                <button data-product-type="audio" onclick="selectOption(this, 4, 400)">Аудио открытка - 400 руб</button>
+                <button data-product-type="none" onclick="selectOption(this, 4, 0)">Без открытки - 0 руб</button>
+            </div>
+            <h3>Предложения:</h3>
+            <div class="product-suggestions" id="product-suggestions-4"></div>
+        </div>
+
+        <div class="step hidden" data-step="5">
+            <h2>Шаг 5: Выберите упаковку</h2>
+            <div class="options">
+                <button data-product-type="kraft_bow" onclick="selectOption(this, 5, 250)">Крафт с бантом - 250 руб</button>
+                <button data-product-type="kraft_color_bow" onclick="selectOption(this, 5, 300)">Крафт цветная с бантом - 300 руб</button>
+                <button data-product-type="cardboard_ribbon" onclick="selectOption(this, 5, 350)">Картонная с лентой - 350 руб</button>
+                <button data-product-type="none" onclick="selectOption(this, 5, 0)">Без упаковки - 0 руб</button>
+            </div>
+             <h3>Предложения:</h3>
+            <div class="product-suggestions" id="product-suggestions-5"></div>
+        </div>
+
+        <div class="buttons">
+            <button id="back" onclick="prevStep()" class="hidden">Назад</button>
+            <button id="next" onclick="nextStep()">Вперед</button>
+            <button id="calculate" onclick="calculateTotal()" class="hidden">Рассчитать</button>
+        </div>
+
+        <div id="selected-products" class="hidden">
+            <h3>Выбранные товары:</h3>
+            <div id="selected-products-list"></div>
+            <button onclick="removeAllAdditionalProducts()">Удалить все дополнительные товары</button>
+        </div>
+
+        <div id="summary" class="hidden">
+            <h2>Итоговая стоимость:</h2>
+            <div id="summary-content"></div>
         </div>
     </div>
 
-    <div class="step hidden" data-step="2">
-        <h3>Наполнитель</h3>
-        <button data-product-type="tissue" onclick="selectOption(this, 2, 50)">Подложка из бумаги тишью - 50 руб</button>
-        <button data-product-type="paper" onclick="selectOption(this, 2, 200)">Бумажный наполнитель гофрированный - 200 руб</button>
-        <button data-product-type="tishue" onclick="selectOption(this, 2, 200)">Тишью наполнитель - 200 руб</button>
-        <button data-product-type="foam" onclick="selectOption(this, 2, 350)">Пенопластовый наполнитель - 350 руб</button>
-        <button data-product-type="feathers" onclick="selectOption(this, 2, 250)">Наполнитель из перьев - 250 руб</button>
-        <button data-product-type="hearts" onclick="selectOption(this, 2, 150)">Наполнитель из атласных сердец - от 150 до 400 руб</button>
-        <button data-product-type="none" onclick="selectOption(this, 2, 0)">Без наполнителя - 0 руб</button>
-
-        <div class="product-suggestions" id="product-suggestions-2">
-            <!-- Product Suggestions for Step 2 will be dynamically loaded here -->
-        </div>
-    </div>
-
-    <div class="step hidden" data-step="3">
-        <h3>Оберточка для коробки</h3>
-        <button data-product-type="kraft_plain" onclick="selectOption(this, 3, 200)">Крафтовая бумага без цвета (бежевая) - 200 руб</button>
-        <button data-product-type="kraft_color" onclick="selectOption(this, 3, 450)">Крафтовая бумага с выбором цвета и принтов - от 450 руб</button>
-        <button data-product-type="wrapping_color" onclick="selectOption(this, 3, 350)">Оберточная бумага с выбором цвета и принтов - от 350 руб</button>
-        <button data-product-type="none" onclick="selectOption(this, 3, 0)">Без обертки - 0 руб</button>
-
-        <div class="product-suggestions" id="product-suggestions-3">
-            <!-- Product Suggestions for Step 3 will be dynamically loaded here -->
-        </div>
-    </div>
-
-    <div class="step hidden" data-step="4">
-        <h3>Открытка</h3>
-        <button data-product-type="mini" onclick="selectOption(this, 4, 50)">Мини открытка 10 см - 50 руб</button>
-        <button data-product-type="zd" onclick="selectOption(this, 4, 500)">Открытка с 3D-разворотом - 500 руб</button>
-        <button data-product-type="audio" onclick="selectOption(this, 4, 450)">Аудио открытка с вашим голосовым сообщением - 450 руб</button>
-        <button data-product-type="none" onclick="selectOption(this, 4, 0)">Без открытки - 0 руб</button>
-
-        <div class="product-suggestions" id="product-suggestions-4">
-            <!-- Product Suggestions for Step 4 will be dynamically loaded here -->
-        </div>
-    </div>
-
-    <div class="step hidden" data-step="5">
-        <h3>Пакет</h3>
-        <button data-product-type="kraft_bow" onclick="selectOption(this, 5, 0)">Крафтовый пакет с бантом - 0 руб</button>
-        <button data-product-type="kraft_color_bow" onclick="selectOption(this, 5, 200)">Крафтовый пакет с бантом с выбором цвета принта или надписей - от 200 руб</button>
-        <button data-product-type="cardboard_ribbon" onclick="selectOption(this, 5, 350)">Пакет из картона с ручками из лент - от 350 руб</button>
-
-        <div class="product-suggestions" id="product-suggestions-5">
-            <!-- Product Suggestions for Step 5 will be dynamically loaded here -->
-        </div>
-    </div>
-
-</div>
-
-<button id="next" onclick="nextStep()">Далее</button>
-<button id="calculate" class="hidden" onclick="calculateTotal()">Расчет</button>
-
-<div id="summary" class="table hidden">
-    <h3>Итоговая таблица</h3>
-    <div id="summary-content"></div>
-</div>
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
