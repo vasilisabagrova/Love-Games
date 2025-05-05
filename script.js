@@ -1,3 +1,4 @@
+console.log("script.js loaded");
 let currentStep = 1;
 const totalSteps = 5;
 const selectedOptions = {};
