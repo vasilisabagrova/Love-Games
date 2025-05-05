@@ -159,16 +159,16 @@ const productData = {
                   { name: "mini 8", price: 100, image: "https://via.placeholder.com/100" },
                    { name: "mini 9", price: 100, image: "https://via.placeholder.com/100" }
         ],
-        3d: [
-             { name: "3d 1", price: 100, image: "https://via.placeholder.com/100" },
-            { name: "3d 2", price: 100, image: "https://via.placeholder.com/100" },
-             { name: "3d 3", price: 100, image: "https://via.placeholder.com/100" },
-              { name: "3d 4", price: 100, image: "https://via.placeholder.com/100" },
-               { name: "3d 5", price: 100, image: "https://via.placeholder.com/100" },
-                { name: "3d 6", price: 100, image: "https://via.placeholder.com/100" },
-                 { name: "3d 7", price: 100, image: "https://via.placeholder.com/100" },
-                  { name: "3d 8", price: 100, image: "https://via.placeholder.com/100" },
-                   { name: "3d 9", price: 100, image: "https://via.placeholder.com/100" }
+        zd: [
+             { name: "zd 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "zd 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "zd 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "zd 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "zd 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "zd 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "zd 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "zd 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "zd 9", price: 100, image: "https://via.placeholder.com/100" }
         ],
         audio: [
              { name: "audio 1", price: 100, image: "https://via.placeholder.com/100" },
