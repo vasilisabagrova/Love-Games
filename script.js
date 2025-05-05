@@ -1,8 +1,8 @@
 let currentStep = 1;
 const totalSteps = 5;
 const selectedOptions = {};
-const basePrices = {};
 let additionalProducts = []; // Array to store additional products
+let baseProductSelected = false; // Flag to track if a base product is selected
 
 // Sample product data (replace with your actual data)
 const productData = {
@@ -198,7 +198,7 @@ const productData = {
         cardboard_ribbon: [
              { name: "cardboard_ribbon 1", price: 100, image: "https://via.placeholder.com/100" },
             { name: "cardboard_ribbon 2", price: 100, image: "https://via.placeholder.com/100" },
-             { name: "cardboard_ribbon3", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "cardboard_ribbon 3", price: 100, image: "https://via.placeholder.com/100" },
               { name: "cardboard_ribbon 4", price: 100, image: "https://via.placeholder.com/100" },
                { name: "cardboard_ribbon 5", price: 100, image: "https://via.placeholder.com/100" },
                 { name: "cardboard_ribbon 6", price: 100, image: "https://via.placeholder.com/100" },
@@ -210,9 +210,49 @@ const productData = {
     }
 };
 
+function getRandomProducts(step, count = 9) {
+    const allTypes = Object.keys(productData[step]);
+    const randomProducts = [];
+
+    while (randomProducts.length < count && allTypes.length > 0) {
+        const typeIndex = Math.floor(Math.random() * allTypes.length);
+        const type = allTypes[typeIndex];
+        const productsOfType = productData[step][type];
+
+        if (productsOfType && productsOfType.length > 0) {
+            const productIndex = Math.floor(Math.random() * productsOfType.length);
+            const product = productsOfType[productIndex];
+            randomProducts.push(product);
+        }
+
+        allTypes.splice(typeIndex, 1); // Prevent duplicates and infinite loops
+    }
+
+    return randomProducts;
+}
+
+function showInitialSuggestions(step) {
+    const suggestionsContainer = document.getElementById(`product-suggestions-${step}`);
+    suggestionsContainer.innerHTML = '';
+
+    const randomProducts = getRandomProducts(step);
+
+    randomProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-name">${product.name}</div>
+            <div class="product-price">${product.price} руб</div>
+            <button onclick="addAdditionalProduct(${step}, '${Object.keys(productData[step]).find(key => productData[step][key].includes(product))}', '${product.name}')">Выбрать</button>
+        `;
+        suggestionsContainer.appendChild(productCard);
+    });
+}
+
 function showSuggestions(step) {
     const suggestionsContainer = document.getElementById(`product-suggestions-${step}`);
-    suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+    suggestionsContainer.innerHTML = '';
 
     // Get the selected product type for the current step
     const selectedProductType = selectedOptions[step];
@@ -274,25 +314,16 @@ function updateSelectedProductsList() {
     });
 
     const selectedProductsDiv = document.getElementById('selected-products');
-    if (additionalProducts.length > 0) {
-        selectedProductsDiv.classList.remove('hidden');
-    } else {
-        selectedProductsDiv.classList.add('hidden');
-    }
-
-    // Show selected products on the calculate step
-    if (currentStep === 5) {
-        selectedProductsDiv.classList.remove('hidden');
-    }
+    selectedProductsDiv.classList.toggle('hidden', additionalProducts.length === 0);
 }
 
-function selectOption(button, step, price) {
+function selectOption(button, step) {
     const buttons = button.parentNode.querySelectorAll('button');
     buttons.forEach(btn => btn.classList.remove('selected'));
     button.classList.add('selected');
 
     selectedOptions[step] = button.dataset.productType;
-    basePrices[step] = price;
+    baseProductSelected = true;
     showSuggestions(step);
 }
 
@@ -300,14 +331,6 @@ function updateButtonsVisibility() {
     document.getElementById('back').classList.toggle('hidden', currentStep === 1);
     document.getElementById('next').classList.toggle('hidden', currentStep === totalSteps);
     document.getElementById('calculate').classList.toggle('hidden', currentStep !== totalSteps);
-
-    // Show selected products on the calculate step
-    const selectedProductsDiv = document.getElementById('selected-products');
-    if (currentStep === 5) {
-        selectedProductsDiv.classList.remove('hidden');
-    } else {
-        selectedProductsDiv.classList.add('hidden');
-    }
 }
 
 function updateProgressBar() {
@@ -321,11 +344,17 @@ function showStep(step) {
     document.querySelector(`.step[data-step="${step}"]`).classList.remove('hidden');
     document.getElementById('current-step').textContent = step;
     updateButtonsVisibility();
+
+    // Show initial suggestions if no base product is selected
+    if (!baseProductSelected) {
+        showInitialSuggestions(step);
+    }
 }
 
 function nextStep() {
     if (currentStep < totalSteps) {
         currentStep++;
+        baseProductSelected = false; // Reset the flag when moving to the next step
         showStep(currentStep);
         updateProgressBar();
     }
@@ -334,6 +363,7 @@ function nextStep() {
 function prevStep() {
     if (currentStep > 1) {
         currentStep--;
+        baseProductSelected = false; // Reset the flag when moving to the previous step
         showStep(currentStep);
         updateProgressBar();
     }
@@ -341,9 +371,6 @@ function prevStep() {
 
 function calculateTotal() {
     let totalPrice = 0;
-    for (let step in basePrices) {
-        totalPrice += basePrices[step];
-    }
 
     additionalProducts.forEach(product => {
         totalPrice += product.price;
@@ -356,3 +383,4 @@ function calculateTotal() {
 // Initialize the first step
 showStep(currentStep);
 updateProgressBar();
+updateSelectedProductsList();
