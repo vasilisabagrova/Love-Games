@@ -1,5 +1,5 @@
 let currentStep = 1;
-const totalSteps = 5;
+const totalSteps = 6; // Increased total steps to include the calculation step
 const selectedOptions = {};
 let additionalProducts = []; // Array to store additional products
 let baseProductSelected = false; // Flag to track if a base product is selected
@@ -211,21 +211,35 @@ const productData = {
 };
 
 function getRandomProducts(step, count = 9) {
-    const allTypes = Object.keys(productData[step]);
+    const allTypes = Object.keys(productData[step]).filter(type => type !== 'none'); // Exclude 'none' category
     const randomProducts = [];
+    const usedCategories = new Set();
 
-    while (randomProducts.length < count && allTypes.length > 0) {
+    // Add one product from each category
+    while (randomProducts.length < Math.min(count, allTypes.length)) {
         const typeIndex = Math.floor(Math.random() * allTypes.length);
         const type = allTypes[typeIndex];
-        const productsOfType = productData[step][type];
 
+        if (!usedCategories.has(type)) {
+            const productsOfType = productData[step][type];
+            if (productsOfType && productsOfType.length > 0) {
+                const productIndex = Math.floor(Math.random() * productsOfType.length);
+                const product = productsOfType[productIndex];
+                randomProducts.push(product);
+                usedCategories.add(type);
+            }
+        }
+    }
+
+    // Fill remaining slots with random products from any category
+    while (randomProducts.length < count && allTypes.length > 0) {
+        const type = allTypes[Math.floor(Math.random() * allTypes.length)];
+        const productsOfType = productData[step][type];
         if (productsOfType && productsOfType.length > 0) {
             const productIndex = Math.floor(Math.random() * productsOfType.length);
             const product = productsOfType[productIndex];
             randomProducts.push(product);
         }
-
-        allTypes.splice(typeIndex, 1); // Prevent duplicates and infinite loops
     }
 
     return randomProducts;
@@ -329,8 +343,14 @@ function selectOption(button, step) {
 
 function updateButtonsVisibility() {
     document.getElementById('back').classList.toggle('hidden', currentStep === 1);
-    document.getElementById('next').classList.toggle('hidden', currentStep === totalSteps);
-    document.getElementById('calculate').classList.toggle('hidden', currentStep !== totalSteps);
+    document.getElementById('next').classList.toggle('hidden', currentStep === totalSteps - 1);
+    document.getElementById('calculate').classList.toggle('hidden', currentStep !== totalSteps - 1);
+
+    // Hide back and next buttons on the calculation step
+    if (currentStep === totalSteps) {
+        document.getElementById('back').classList.add('hidden');
+        document.getElementById('next').classList.add('hidden');
+    }
 }
 
 function updateProgressBar() {
@@ -367,6 +387,31 @@ function prevStep() {
         showStep(currentStep);
         updateProgressBar();
     }
+}
+
+function showCalculationStep() {
+    currentStep = totalSteps;
+    showStep(currentStep);
+    updateProgressBar();
+    displaySelectedProductsSummary();
+    calculateTotal();
+}
+
+function displaySelectedProductsSummary() {
+    const selectedProductsListSummary = document.getElementById('selected-products-list-summary');
+    selectedProductsListSummary.innerHTML = '';
+
+    additionalProducts.forEach((product, index) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-name">${product.name}</div>
+            <div class="product-price">${product.price} руб</div>
+            <button class="remove-button" onclick="removeAdditionalProduct(${index})">Удалить</button>
+        `;
+        selectedProductsListSummary.appendChild(productCard);
+    });
 }
 
 function calculateTotal() {
