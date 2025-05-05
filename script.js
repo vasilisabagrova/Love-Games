@@ -2,7 +2,7 @@ let currentStep = 1;
 const totalSteps = 5;
 const selectedOptions = {};
 const basePrices = {};
-let additionalProductsTotal = 0; // Track additional products' price
+let additionalProducts = []; // Array to store additional products
 
 // Sample product data (replace with your actual data)
 const productData = {
@@ -64,17 +64,6 @@ const productData = {
                  { name: "paper 7", price: 100, image: "https://via.placeholder.com/100" },
                   { name: "paper 8", price: 100, image: "https://via.placeholder.com/100" },
                    { name: "paper 9", price: 100, image: "https://via.placeholder.com/100" }
-        ],
-        tishue: [
-            { name: "tishue 1", price: 100, image: "https://via.placeholder.com/100" },
-            { name: "tishue 2", price: 100, image: "https://via.placeholder.com/100" },
-             { name: "tishue 3", price: 100, image: "https://via.placeholder.com/100" },
-              { name: "tishue 4", price: 100, image: "https://via.placeholder.com/100" },
-               { name: "tishue 5", price: 100, image: "https://via.placeholder.com/100" },
-                { name: "tishue 6", price: 100, image: "https://via.placeholder.com/100" },
-                 { name: "tishue 7", price: 100, image: "https://via.placeholder.com/100" },
-                  { name: "tishue 8", price: 100, image: "https://via.placeholder.com/100" },
-                   { name: "tishue 9", price: 100, image: "https://via.placeholder.com/100" }
         ],
         foam: [
             { name: "foam 1", price: 100, image: "https://via.placeholder.com/100" },
@@ -159,16 +148,16 @@ const productData = {
                   { name: "mini 8", price: 100, image: "https://via.placeholder.com/100" },
                    { name: "mini 9", price: 100, image: "https://via.placeholder.com/100" }
         ],
-        zd: [
-             { name: "zd 1", price: 100, image: "https://via.placeholder.com/100" },
-            { name: "zd 2", price: 100, image: "https://via.placeholder.com/100" },
-             { name: "zd 3", price: 100, image: "https://via.placeholder.com/100" },
-              { name: "zd 4", price: 100, image: "https://via.placeholder.com/100" },
-               { name: "zd 5", price: 100, image: "https://via.placeholder.com/100" },
-                { name: "zd 6", price: 100, image: "https://via.placeholder.com/100" },
-                 { name: "zd 7", price: 100, image: "https://via.placeholder.com/100" },
-                  { name: "zd 8", price: 100, image: "https://via.placeholder.com/100" },
-                   { name: "zd 9", price: 100, image: "https://via.placeholder.com/100" }
+        "3d": [
+             { name: "3d 1", price: 100, image: "https://via.placeholder.com/100" },
+            { name: "3d 2", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "3d 3", price: 100, image: "https://via.placeholder.com/100" },
+              { name: "3d 4", price: 100, image: "https://via.placeholder.com/100" },
+               { name: "3d 5", price: 100, image: "https://via.placeholder.com/100" },
+                { name: "3d 6", price: 100, image: "https://via.placeholder.com/100" },
+                 { name: "3d 7", price: 100, image: "https://via.placeholder.com/100" },
+                  { name: "3d 8", price: 100, image: "https://via.placeholder.com/100" },
+                   { name: "3d 9", price: 100, image: "https://via.placeholder.com/100" }
         ],
         audio: [
              { name: "audio 1", price: 100, image: "https://via.placeholder.com/100" },
@@ -209,7 +198,7 @@ const productData = {
         cardboard_ribbon: [
              { name: "cardboard_ribbon 1", price: 100, image: "https://via.placeholder.com/100" },
             { name: "cardboard_ribbon 2", price: 100, image: "https://via.placeholder.com/100" },
-             { name: "cardboard_ribbon 3", price: 100, image: "https://via.placeholder.com/100" },
+             { name: "cardboard_ribbon3", price: 100, image: "https://via.placeholder.com/100" },
               { name: "cardboard_ribbon 4", price: 100, image: "https://via.placeholder.com/100" },
                { name: "cardboard_ribbon 5", price: 100, image: "https://via.placeholder.com/100" },
                 { name: "cardboard_ribbon 6", price: 100, image: "https://via.placeholder.com/100" },
@@ -221,99 +210,149 @@ const productData = {
     }
 };
 
-function selectOption(button, step, price) {
-    console.log("selectOption called", button, step, price); // Debugging line
-    const stepDiv = document.querySelector(`.step[data-step="${step}"]`);
-    stepDiv.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
-    button.classList.add('selected');
-    selectedOptions[step] = button.textContent;
-    basePrices[step] = price;
+function showSuggestions(step) {
+    const suggestionsContainer = document.getElementById(`product-suggestions-${step}`);
+    suggestionsContainer.innerHTML = ''; // Clear previous suggestions
 
-    // Update product suggestions
-    updateProductSuggestions(step, button.dataset.productType);
-}
+    // Get the selected product type for the current step
+    const selectedProductType = selectedOptions[step];
 
-function nextStep() {
-    if (!selectedOptions[currentStep]) {
-        alert('Пожалуйста, выберите вариант!');
-        return;
-    }
-    document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('hidden');
-    currentStep++;
-    if (currentStep <= totalSteps) {
-        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('hidden');
-        document.getElementById('current-step').textContent = currentStep;
+    if (selectedProductType && productData[step] && productData[step][selectedProductType]) {
+        const products = productData[step][selectedProductType];
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <div class="product-name">${product.name}</div>
+                <div class="product-price">${product.price} руб</div>
+                <button onclick="addAdditionalProduct(${step}, '${selectedProductType}', '${product.name}')">Выбрать</button>
+            `;
+            suggestionsContainer.appendChild(productCard);
+        });
     } else {
-        document.getElementById('next').classList.add('hidden');
-        document.getElementById('calculate').classList.remove('hidden');
+        suggestionsContainer.textContent = 'Нет предложений для этого выбора.';
     }
-
-    updateProgressBar();
 }
 
-function calculateTotal() {
-    const summaryContent = document.getElementById('summary-content');
-    summaryContent.innerHTML = '';
-    let totalMin = 0;
-    let totalMax = 0;
+function addAdditionalProduct(step, productType, productName) {
+    const product = productData[step][productType].find(p => p.name === productName);
+    if (product) {
+        additionalProducts.push({
+            step: step,
+            type: productType,
+            name: product.name,
+            price: product.price,
+            image: product.image
+        });
+        updateSelectedProductsList();
+    }
+}
 
-    Object.keys(selectedOptions).forEach(step => {
-        summaryContent.innerHTML += `<p>${selectedOptions[step]}</p>`;
-        totalMin += basePrices[step];
-        totalMax += basePrices[step] * 1.2;
+function removeAdditionalProduct(index) {
+    additionalProducts.splice(index, 1);
+    updateSelectedProductsList();
+}
+
+function removeAllAdditionalProducts() {
+    additionalProducts = [];
+    updateSelectedProductsList();
+}
+
+function updateSelectedProductsList() {
+    const selectedProductsList = document.getElementById('selected-products-list');
+    selectedProductsList.innerHTML = '';
+
+    additionalProducts.forEach((product, index) => {
+        const productItem = document.createElement('div');
+        productItem.classList.add('selected-product-item');
+        productItem.innerHTML = `
+            <span>${product.name} (${product.price} руб)</span>
+            <button class="remove-button" onclick="removeAdditionalProduct(${index})">Удалить</button>
+        `;
+        selectedProductsList.appendChild(productItem);
     });
 
-    totalMin += additionalProductsTotal;
-    totalMax += additionalProductsTotal; // Assuming no price range for additional products
+    const selectedProductsDiv = document.getElementById('selected-products');
+    if (additionalProducts.length > 0) {
+        selectedProductsDiv.classList.remove('hidden');
+    } else {
+        selectedProductsDiv.classList.add('hidden');
+    }
 
-    summaryContent.innerHTML += `<p>Итоговая стоимость: от ${totalMin} руб до ${totalMax.toFixed(2)} руб</p>`;
-    document.getElementById('summary').classList.remove('hidden');
+    // Show selected products on the calculate step
+    if (currentStep === 5) {
+        selectedProductsDiv.classList.remove('hidden');
+    }
+}
+
+function selectOption(button, step, price) {
+    const buttons = button.parentNode.querySelectorAll('button');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    button.classList.add('selected');
+
+    selectedOptions[step] = button.dataset.productType;
+    basePrices[step] = price;
+    showSuggestions(step);
+}
+
+function updateButtonsVisibility() {
+    document.getElementById('back').classList.toggle('hidden', currentStep === 1);
+    document.getElementById('next').classList.toggle('hidden', currentStep === totalSteps);
+    document.getElementById('calculate').classList.toggle('hidden', currentStep !== totalSteps);
+
+    // Show selected products on the calculate step
+    const selectedProductsDiv = document.getElementById('selected-products');
+    if (currentStep === 5) {
+        selectedProductsDiv.classList.remove('hidden');
+    } else {
+        selectedProductsDiv.classList.add('hidden');
+    }
 }
 
 function updateProgressBar() {
-    const progress = (currentStep - 1) / totalSteps * 100;
-    document.getElementById('progress-bar').style.width = `${progress}%`;
+    const progressBar = document.getElementById('progress-bar');
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+    progressBar.style.width = `${progress}%`;
 }
 
-function addProduct(price) {
-    additionalProductsTotal += price;
-    alert(`Товар добавлен! Общая стоимость дополнительных товаров: ${additionalProductsTotal} руб`);
+function showStep(step) {
+    document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+    document.querySelector(`.step[data-step="${step}"]`).classList.remove('hidden');
+    document.getElementById('current-step').textContent = step;
+    updateButtonsVisibility();
 }
 
-function updateProductSuggestions(step, productType) {
-    const suggestionsContainer = document.getElementById(`product-suggestions-${step}`);
-    suggestionsContainer.innerHTML = ''; // Clear existing suggestions
+function nextStep() {
+    if (currentStep < totalSteps) {
+        currentStep++;
+        showStep(currentStep);
+        updateProgressBar();
+    }
+}
 
-    if (productType === 'none' || !productData[step][productType]) {
-        return; // No suggestions for this type
+function prevStep() {
+    if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
+        updateProgressBar();
+    }
+}
+
+function calculateTotal() {
+    let totalPrice = 0;
+    for (let step in basePrices) {
+        totalPrice += basePrices[step];
     }
 
-    const products = productData[step][productType];
-
-    products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-        productCard.onclick = () => addProduct(product.price);
-
-        const img = document.createElement('img');
-        img.src = product.image;
-        img.alt = product.name;
-        productCard.appendChild(img);
-
-        const nameDiv = document.createElement('div');
-        nameDiv.classList.add('product-name');
-        nameDiv.textContent = product.name;
-        productCard.appendChild(nameDiv);
-
-        const priceDiv = document.createElement('div');
-        priceDiv.classList.add('product-price');
-        priceDiv.textContent = `${product.price} руб`;
-        productCard.appendChild(priceDiv);
-
-        suggestionsContainer.appendChild(productCard);
+    additionalProducts.forEach(product => {
+        totalPrice += product.price;
     });
+
+    document.getElementById('summary-content').textContent = `Итоговая стоимость: ${totalPrice} руб`;
+    document.getElementById('summary').classList.remove('hidden');
 }
 
-// Initialize product suggestions for the first step
-updateProductSuggestions(1, 'kraft'); // Default to kraft boxes
+// Initialize the first step
+showStep(currentStep);
 updateProgressBar();
