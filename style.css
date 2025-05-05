@@ -55,4 +55,58 @@ button:hover {
 }
 
 .table p {
-    margin: 5
+    margin: 5px 0;
+}
+
+/* Product Suggestions Styling */
+.product-suggestions {
+    overflow-x: auto; /* Horizontal scrolling */
+    white-space: nowrap; /* Prevent wrapping */
+    padding: 10px 0;
+}
+
+.product-card {
+    display: inline-block;
+    width: 150px; /* Adjust as needed */
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin: 0 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.product-card .product-name {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.product-card .product-price {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    height: 20px;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    background-color: #4CAF50;
+    height: 100%;
+    border-radius: 5px;
+    width: 0;
+    transition: width 0.3s ease;
+}
