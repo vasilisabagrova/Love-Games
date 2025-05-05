@@ -1,4 +1,3 @@
-console.log("script.js loaded");
 let currentStep = 1;
 const totalSteps = 5;
 const selectedOptions = {};
@@ -223,6 +222,7 @@ const productData = {
 };
 
 function selectOption(button, step, price) {
+    console.log("selectOption called", button, step, price); // Debugging line
     const stepDiv = document.querySelector(`.step[data-step="${step}"]`);
     stepDiv.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
     button.classList.add('selected');
