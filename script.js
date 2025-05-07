@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentStep = 1;
     let selectedProducts = [];
     let totalPrice = 0;
+    let selectedCategories = {}; // Инициализация переменной
 
     function updateProgress() {
         const progressPercentage = ((currentStep - 1) / (steps.length - 1)) * 100;
@@ -35,15 +36,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const productsDiv = productsDivs[stepNumber - 1];
         productsDiv.innerHTML = '';
 
+        // Обновляем выбранную категорию
+        if (category) {
+            selectedCategories[stepNumber] = category;
+        }
+
         const productsToDisplay = category ? productsData[`step${stepNumber}-${category}`] || [] : getRandomProducts(9, stepNumber);
         if (stepNumber === 6) {
-            productsToDisplay = [
+            productsToDisplay.length = 0; // Очищаем массив
+            productsToDisplay.push(
                 productsData['step6-no-scent'][0],
                 productsData['step6-fruity-floral'][0],
                 productsData['step6-woody-fruity'][0],
                 productsData['step6-woody-floral'][0],
                 productsData['step6-woody-musky'][0]
-            ];
+            );
         }
 
         productsToDisplay.forEach(product => {
@@ -118,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         updateSelectedProductsDisplay();
-        loadProducts(currentStep); // Refresh product buttons
+        loadProducts(currentStep); // Обновляем кнопки продуктов
     }
 
     function removeProduct(product) {
@@ -127,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateSelectedProductsDisplay() {
-        selectedProductsList.innerHTML = ''; // Clear existing display
+        selectedProductsList.innerHTML = ''; // Очищаем существующий вывод
         totalPrice = 0;
 
         selectedProducts.forEach((product, index) => {
@@ -196,12 +203,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Attach event listeners to navigation buttons for each step
+    // Привязываем обработчики событий к кнопкам навигации для каждого шага
     steps.forEach(step => {
         attachNavigationEventListeners(step);
     });
 
-    // Initial setup
+    // Изначальная настройка
     showStep(currentStep);
     updateProgress();
 });
