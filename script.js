@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Обновляем выбранную категорию
         if (category) {
-            selectedCategories[stepNumber] = category;
+            selectedCategories[stepNumber] = category; // Сохраняем выбранную категорию
         }
 
         const productsToDisplay = category ? productsData[`step${stepNumber}-${category}`] || [] : getRandomProducts(9, stepNumber);
