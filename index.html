@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор упаковки</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Конструктор упаковки</h1>
+
+        <div class="progress-container">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="step-count">
+            Шаг <span id="current-step">1</span> из 6
+        </div>
+
+        <!-- Шаг 1: Выбор пакета -->
+        <div class="step" id="step1">
+            <h2>Шаг 1: Выберите пакет</h2>
+            <div class="category-buttons">
+                <button data-category="kraft-bow">Крафтовый с бантом</button>
+                <button data-category="pvc">ПВХ</button>
+                <button data-category="kraft-print">Крафтовый с принтом</button>
+                <button data-category="cardboard">Картонный</button>
+            </div>
+            <div class="products" id="products">
+                <!-- Здесь будут отображаться товары -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button" disabled>Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Шаг 2: Выбор коробки или индивидуальной упаковки -->
+        <div class="step" id="step2">
+            <h2>Шаг 2: Выберите коробку или индивидуальную упаковку</h2>
+            <div class="category-buttons">
+                <button data-category="no-box">Без коробки (индивидуальная упаковка)</button>
+                <button data-category="kraft-corrugated">Гофрокартон</button>
+                <button data-category="thick-cardboard">Толстый картон</button>
+                <button data-category="premium">Премиум</button>
+            </div>
+            <div id="individual-package-message">
+                Вы выбрали индивидуальную упаковку. Переходим к выбору открытки.
+            </div>
+            <div class="products" id="products2">
+                <!-- Здесь будут отображаться товары -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Шаг 3: Выбор наполнителя -->
+        <div class="step" id="step3">
+            <h2>Шаг 3: Выберите наполнитель</h2>
+            <div class="category-buttons">
+                <button data-category="tissue-paper">Бумага тишью</button>
+                <button data-category="corrugated-paper">Гофрированный наполнитель</button>
+                <button data-category="tissue">Тишью наполнитель</button>
+                <button data-category="foam">Пенопласт</button>
+                <button data-category="feathers">Перья</button>
+                <button data-category="hearts">Сердца</button>
+                <button data-category="no-filler">Без наполнителя</button>
+            </div>
+            <div class="products" id="products3">
+                <!-- Здесь будут отображаться товары -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Шаг 4: Выбор оберточной бумаги -->
+        <div class="step" id="step4">
+            <h2>Шаг 4: Выберите оберточную бумагу</h2>
+            <div class="category-buttons">
+                <button data-category="kraft-plain">Крафт без цвета</button>
+                <button data-category="kraft-print">Крафт с принтом</button>
+                <button data-category="wrapping-paper">Оберточная бумага</button>
+                <button data-category="no-wrapping">Без обертки</button>
+            </div>
+            <div class="products" id="products4">
+                <!-- Здесь будут отображаться товары -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Шаг 5: Выбор открытки -->
+        <div class="step" id="step5">
+            <h2>Шаг 5: Выберите открытку</h2>
+            <div class="category-buttons">
+                <button data-category="mini-card">Мини открытка</button>
+                <button data-category="mini-design">Мини с дизайном</button>
+                <button data-category="3d-card">3D открытка</button>
+                <button data-category="audio-card">Аудио открытка</button>
+                <button data-category="no-card">Без открытки</button>
+            </div>
+            <div class="products" id="products5">
+                <!-- Здесь будут отображаться товары -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Шаг 6: Выбор аромата -->
+        <div class="step" id="step6">
+            <h2>Шаг 6: Выберите аромат</h2>
+            <div class="products" id="products6">
+                <!-- Здесь будут отображаться товары -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Шаг 7: Оформление заказа -->
+        <div class="step" id="step7">
+            <h2>Шаг 7: Оформление заказа</h2>
+            <p>Проверьте ваш заказ и подтвердите его:</p>
+            <ul id="final-products-list">
+                <!-- Здесь будет итоговый список товаров -->
+            </ul>
+            <!-- Блок с выбранными товарами -->
+            <div id="selected-products" style="display: none;">
+                <h2>Выбранные товары:</h2>
+                <ul id="selected-products-list">
+                    <!-- Здесь будут отображаться выбранные товары -->
+                </ul>
+                <div>Итоговая стоимость: <span id="total-price">0</span> рублей</div>
+                <button id="checkout-button">Оформить заказ</button>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
