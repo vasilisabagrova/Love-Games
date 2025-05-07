@@ -15,7 +15,7 @@
         </div>
 
         <div class="step-count">
-            Шаг <span id="current-step">1</span> из 6
+            Шаг <span id="current-step">1</span> из 7
         </div>
 
         <!-- Шаг 1: Выбор пакета -->
@@ -45,7 +45,7 @@
                 <button data-category="thick-cardboard">Толстый картон</button>
                 <button data-category="premium">Премиум</button>
             </div>
-            <div id="individual-package-message">
+            <div id="individual-package-message" style="display: none;">
                 Вы выбрали индивидуальную упаковку. Переходим к выбору открытки.
             </div>
             <div class="products" id="products2">
@@ -134,7 +134,6 @@
             <ul id="final-products-list">
                 <!-- Здесь будет итоговый список товаров -->
             </ul>
-            <!-- Блок с выбранными товарами -->
             <div id="selected-products" style="display: none;">
                 <h2>Выбранные товары:</h2>
                 <ul id="selected-products-list">
@@ -147,8 +146,8 @@
                 <button id="prev-button">Назад</button>
             </div>
         </div>
-
     </div>
-    <script src="script.js"></script>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
