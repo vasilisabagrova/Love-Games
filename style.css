@@ -17,8 +17,8 @@ body {
     width: 80%;
     max-width: 900px;
     text-align: center;
-    display: flex; /* Enable flexbox */
-    flex-direction: column; /* Stack children vertically */
+    display: flex;
+    flex-direction: column;
 }
 
 h1, h2 {
@@ -49,14 +49,13 @@ h1, h2 {
     margin-bottom: 20px;
 }
 
-/* Styles for selected products */
 #selected-products {
     margin-top: 30px;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     text-align: left;
-    order: 1; /* Push it to the end */
+    order: 1;
 }
 
 #selected-products h2 {
@@ -92,10 +91,10 @@ h1, h2 {
 .selected-product .product-name {
     font-weight: bold;
     color: #333;
-    width: 150px; /* Adjust the width as needed */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis (...) for long names */
-    white-space: nowrap; /* Prevent text from wrapping */
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .selected-product .product-price {
@@ -123,7 +122,6 @@ h1, h2 {
     background-color: #3F78E7;
 }
 
-/* Styles for each step */
 .step {
     display: none;
     text-align: center;
@@ -134,7 +132,6 @@ h1, h2 {
     margin-bottom: 20px;
 }
 
-/* Category buttons */
 .category-buttons {
     margin-bottom: 20px;
 }
@@ -159,7 +156,6 @@ h1, h2 {
     background-color: #d0d0d0;
 }
 
-/* Product display */
 .products {
     display: flex;
     flex-wrap: wrap;
@@ -204,7 +200,6 @@ h1, h2 {
     color: #666;
 }
 
-/* Select button */
 .select-button {
     font-family: 'Montserrat', sans-serif;
     background-color: #5890FF; /* VK color */
@@ -241,13 +236,11 @@ h1, h2 {
     background-color: #388E3C;
 }
 
-
-/* Navigation buttons */
 .navigation-buttons {
     margin-top: 20px;
-    display: flex; /* Use flexbox for alignment */
-    justify-content: center; /* Center buttons horizontally */
-    align-items: center; /* Align items vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navigation-buttons button {
@@ -273,48 +266,20 @@ h1, h2 {
     cursor: not-allowed;
 }
 
-/* Individual package message */
 #individual-package-message {
     background-color: #E8F4FF; /* Light blue, similar to VK */
     color: #2E88F0; /* VK blue */
     padding: 15px;
-    border-radius: 10px; /* Rounded corners */
+    border-radius: 10px;
     margin-bottom: 20px;
     display: none;
-    text-align: center; /* Center the text */
-    font-size: 16px; /* Adjust font size as needed */
-    font-weight: 500; /* Optional: Make the text slightly bolder */
-    border: 1px solid #D3E7FF; /* Optional: Subtle border */
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid #D3E7FF;
 }
 
-/* Green color for "Бесплатно" */
-.product .product-price:contains("Бесплатно") {
-    color: green;
-}
-
-.selected-product .product-price:contains("Бесплатно") {
-    color: green;
-}
-
-/* Green color for specific category buttons */
-/*.category-buttons button[data-category="no-filler"],
-.category-buttons button[data-category="no-wrapping"],
-.category-buttons button[data-category="no-card"] {
-    background-color: #4CAF50;
-    color: white;
-}*/
-
-/* Green color for "Без запаха" */
-.product:has(.product-name:contains("Без запаха")) .product-price {
-    color: green;
-}
-
-/* Red color for "Удалить" buttons */
-.select-button.selected {
-    background-color: #FF4136;
-}
-
-/* Quantity control styles */
+/* Остальные стили для кнопок, сортировки и управления количеством */
 .quantity-control {
     display: flex;
     align-items: center;
@@ -342,7 +307,6 @@ h1, h2 {
     margin: 0 5px;
 }
 
-/* Styles for remove button */
 .remove-button {
     font-family: 'Montserrat', sans-serif;
     background-color: #FF4136; /* Red */
@@ -359,18 +323,17 @@ h1, h2 {
     background-color: #D81E0B;
 }
 
-/* Styles for sort dropdown */
 .sort-dropdown {
     position: relative;
     display: inline-block;
-    margin-bottom: 10px; /* Add some space below the dropdown */
-    text-align: left; /* Align the dropdown to the left */
-    margin-right: 10px; /* Add right margin */
+    margin-bottom: 10px;
+    text-align: left;
+    margin-right: 10px;
 }
 
 .sort-dropdown-button {
     font-family: 'Montserrat', sans-serif;
-    background-color: rgba(88, 144, 255, 0.5); /* Semi-transparent VK color */
+    background-color: rgba(88, 144, 255, 0.5);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -378,11 +341,11 @@ h1, h2 {
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease;
-    opacity: 0.8; /* Adjust transparency */
+    opacity: 0.8;
 }
 
 .sort-dropdown-button:hover {
-    background-color: rgba(63, 120, 231, 0.7); /* Darker shade on hover */
+    background-color: rgba(63, 120, 231, 0.7);
 }
 
 .sort-dropdown-content {
@@ -393,7 +356,7 @@ h1, h2 {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     border-radius: 5px;
-    right: 0; /* Position the dropdown to the right */
+    right: 0;
 }
 
 .sort-dropdown-content.show {
@@ -410,27 +373,11 @@ h1, h2 {
     background-color: transparent;
     cursor: pointer;
     width: 100%;
-    border-radius: 0; /* Remove border-radius for dropdown items */
+    border-radius: 0;
 }
 
 .sort-dropdown-content button:hover {
     background-color: #ddd;
-}
-
-.sort-button {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f0f0f0;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
-
-.sort-button:hover {
-    background-color: #e0e0e0;
 }
 
 .step6-hide {
@@ -439,8 +386,8 @@ h1, h2 {
 
 .top-navigation {
     display: flex;
-    justify-content: space-between; /* Равномерное распределение */
-    align-items: center; /* Выравнивание по вертикали */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
@@ -455,15 +402,14 @@ h1, h2 {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
-    flex: 1; /* Равномерное распределение ширины */
-    text-align: center; /* Выравнивание текста по центру */
+    flex: 1;
+    text-align: center;
 }
 
 .top-nav-button:hover {
     background-color: #3F78E7;
 }
 
-/* Styles for clear all button */
 .clear-all-button {
     font-family: 'Montserrat', sans-serif;
     background-color: #FF4136; /* Red */
@@ -481,7 +427,6 @@ h1, h2 {
     background-color: #D81E0B;
 }
 
-/* Styles for back to top button */
 .back-to-top-button {
     position: fixed;
     bottom: 20px;
