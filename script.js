@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
             { name: 'Наполнитель из перьев 2', price: 150, image: 'placeholder.jpg' },
             { name: 'Наполнитель из перьев 3', price: 150, image: 'placeholder.jpg' },
             { name: 'Наполнитель из перьев 4', price: 150, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из перьев 5', image: 'placeholder.jpg' },
+            { name: 'Наполнитель из перьев 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Наполнитель из перьев 6', price: 150, image: 'placeholder.jpg' },
             { name: 'Наполнитель из перьев 7', price: 150, image: 'placeholder.jpg' },
             { name: 'Наполнитель из перьев 8', price: 150, image: 'placeholder.jpg' },
@@ -140,44 +140,44 @@ document.addEventListener('DOMContentLoaded', function() {
             { name: 'Наполнитель из атласных сердец 2', price: 200, image: 'placeholder.jpg' },
             { name: 'Наполнитель из атласных сердец 3', price: 200, image: 'placeholder.jpg' },
             { name: 'Наполнитель из атласных сердец 4', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 5', image: 'placeholder.jpg' },
+            { name: 'Наполнитель из атласных сердец 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Наполнитель из атласных сердец 6', price: 200, image: 'placeholder.jpg' },
             { name: 'Наполнитель из атласных сердец 7', price: 200, image: 'placeholder.jpg' },
             { name: 'Наполнитель из атласных сердец 8', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 9', image: 'placeholder.jpg' }
+            { name: 'Наполнитель из атласных сердец 9', price: 150, image: 'placeholder.jpg' }
         ],
         'step4-kraft-plain': [
             { name: 'Крафтовая бумага без цвета', price: 60, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага без цвета 2', price: 60, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага без цвета 3', price: 60, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага без цвета 4', price: 60, image: 'placeholder.jpg' },
-            { name: 'Крафтовая бумага без цвета 5', image: 'placeholder.jpg' },
+            { name: 'Крафтовая бумага без цвета 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага без цвета 6', price: 60, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага без цвета 7', price: 60, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага без цвета 8', price: 60, image: 'placeholder.jpg' },
-            { name: 'Крафтовая бумага без цвета 9', image: 'placeholder.jpg' }
+            { name: 'Крафтовая бумага без цвета 9', price: 150, image: 'placeholder.jpg' }
         ],
         'step4-kraft-print': [
             { name: 'Крафтовая бумага с принтом', price: 80, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага с принтом 2', price: 80, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага с принтом 3', price: 80, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага с принтом 4', price: 80, image: 'placeholder.jpg' },
-            { name: 'Крафтовая бумага с принтом 5', image: 'placeholder.jpg' },
+            { name: 'Крафтовая бумага с принтом 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага с принтом 6', price: 80, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага с принтом 7', price: 80, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага с принтом 8', price: 80, image: 'placeholder.jpg' },
-            { name: 'Крафтовая бумага с принтом 9', image: 'placeholder.jpg' }
+            { name: 'Крафтовая бумага с принтом 9', price: 150, image: 'placeholder.jpg' }
         ],
         'step4-wrapping-paper': [
             { name: 'Оберточная бумага с принтом', price: 90, image: 'placeholder.jpg' },
             { name: 'Оберточная бумага с принтом 2', price: 90, image: 'placeholder.jpg' },
             { name: 'Оберточная бумага с принтом 3', price: 90, image: 'placeholder.jpg' },
             { name: 'Оберточная бумага с принтом 4', price: 90, image: 'placeholder.jpg' },
-            { name: 'Оберточная бумага с принтом 5', image: 'placeholder.jpg' },
+            { name: 'Оберточная бумага с принтом 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Оберточная бумага с принтом 6', price: 90, image: 'placeholder.jpg' },
             { name: 'Оберточная бумага с принтом 7', price: 90, image: 'placeholder.jpg' },
             { name: 'Оберточная бумага с принтом 8', price: 90, image: 'placeholder.jpg' },
-            { name: 'Оберточная бумага с принтом 9', image: 'placeholder.jpg' }
+            { name: 'Оберточная бумага с принтом 9', price: 150, image: 'placeholder.jpg' }
         ],
         'step5-mini-card': [
             { name: 'Мини открытка', price: 0, image: 'placeholder.jpg' }
@@ -187,33 +187,33 @@ document.addEventListener('DOMContentLoaded', function() {
             { name: 'Мини открытка с дизайном 2', price: 50, image: 'placeholder.jpg' },
             { name: 'Мини открытка с дизайном 3', price: 50, image: 'placeholder.jpg' },
             { name: 'Мини открытка с дизайном 4', price: 50, image: 'placeholder.jpg' },
-            { name: 'Мини открытка с дизайном 5', image: 'placeholder.jpg' },
+            { name: 'Мини открытка с дизайном 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Мини открытка с дизайном 6', price: 50, image: 'placeholder.jpg' },
             { name: 'Мини открытка с дизайном 7', price: 50, image: 'placeholder.jpg' },
             { name: 'Мини открытка с дизайном 8', price: 50, image: 'placeholder.jpg' },
-            { name: 'Мини открытка с дизайном 9', image: 'placeholder.jpg' }
+            { name: 'Мини открытка с дизайном 9', price: 150, image: 'placeholder.jpg' }
         ],
         'step5-3d-card': [
             { name: 'Открытка с 3D разворотом', price: 100, image: 'placeholder.jpg' },
             { name: 'Открытка с 3D разворотом 2', price: 100, image: 'placeholder.jpg' },
             { name: 'Открытка с 3D разворотом 3', price: 100, image: 'placeholder.jpg' },
             { name: 'Открытка с 3D разворотом 4', price: 100, image: 'placeholder.jpg' },
-            { name: 'Открытка с 3D разворотом 5', image: 'placeholder.jpg' },
+            { name: 'Открытка с 3D разворотом 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Открытка с 3D разворотом 6', price: 100, image: 'placeholder.jpg' },
             { name: 'Открытка с 3D разворотом 7', price: 100, image: 'placeholder.jpg' },
             { name: 'Открытка с 3D разворотом 8', price: 100, image: 'placeholder.jpg' },
-            { name: 'Открытка с 3D разворотом 9', image: 'placeholder.jpg' }
+            { name: 'Открытка с 3D разворотом 9', price: 150, image: 'placeholder.jpg' }
         ],
         'step5-audio-card': [
             { name: 'Аудио открытка', price: 150, image: 'placeholder.jpg' },
             { name: 'Аудио открытка 2', price: 150, image: 'placeholder.jpg' },
             { name: 'Аудио открытка 3', price: 150, image: 'placeholder.jpg' },
             { name: 'Аудио открытка 4', price: 150, image: 'placeholder.jpg' },
-            { name: 'Аудио открытка 5', image: 'placeholder.jpg' },
+            { name: 'Аудио открытка 5', price: 150, image: 'placeholder.jpg' },
             { name: 'Аудио открытка 6', price: 150, image: 'placeholder.jpg' },
             { name: 'Аудио открытка 7', price: 150, image: 'placeholder.jpg' },
             { name: 'Аудио открытка 8', price: 150, image: 'placeholder.jpg' },
-            { name: 'Аудио открытка 9', image: 'placeholder.jpg' }
+            { name: 'Аудио открытка 9', price: 150, image: 'placeholder.jpg' }
         ],
         'step6-no-scent': [
             { name: 'Без запаха', price: 0, image: 'placeholder.jpg' }
