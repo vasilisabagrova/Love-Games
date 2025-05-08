@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedCategories = {}; // Объект для хранения выбранных категорий на каждом шаге
     let currentSort = { by: null, order: 'asc' }; // Track current sorting
 
+    // Инициализация VK API
+    VK.init({ apiId: 53542224 }); // Укажите ваш ID приложения
+
     // Данные о товарах
     const products = {
         'step1-kraft-bow': [
@@ -135,17 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
             { name: 'Наполнитель из перьев 8', price: 150, image: 'placeholder.jpg' },
             { name: 'Наполнитель из перьев 9', price: 150, image: 'placeholder.jpg' }
         ],
-        'step3-hearts': [
-            { name: 'Наполнитель из атласных сердец', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 2', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 3', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 4', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 5', image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 6', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 7', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 8', price: 200, image: 'placeholder.jpg' },
-            { name: 'Наполнитель из атласных сердец 9', image: 'placeholder.jpg' }
-        ],
         'step4-kraft-plain': [
             { name: 'Крафтовая бумага без цвета', price: 60, image: 'placeholder.jpg' },
             { name: 'Крафтовая бумага без цвета 2', price: 60, image: 'placeholder.jpg' },
@@ -232,106 +224,48 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
 
-    // Initialize productsData
+    // Инициализация productsData
     productsData = products;
 
-    // Load initial products for step 1
+    // Загрузка начальных продуктов для первого шага
     loadProducts(currentStep);
 
-    // Function to update the progress bar and step count
+    // Функция для обновления прогресс-бара и отображения шага
     function updateProgress() {
         const progressPercentage = ((currentStep - 1) / (steps.length - 1)) * 100;
         progressBar.style.width = `${progressPercentage}%`;
         currentStepDisplay.textContent = currentStep;
     }
 
-    // Function to hide all steps
+    // Функция для скрытия всех шагов
     function hideAllSteps() {
         steps.forEach(step => {
             step.style.display = 'none';
         });
     }
 
-    // Function to show the current step
+    // Функция для отображения текущего шага
     function showStep(stepNumber) {
         hideAllSteps();
         const stepElement = document.getElementById(`step${stepNumber}`);
         stepElement.style.display = 'block';
-
-        // Scroll the step element into view
         stepElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        // Hide progress bar and step count on step 7
-        if (stepNumber === 7) {
-            document.querySelector('.progress-container').style.display = 'none';
-            updateSelectedProductsDisplay(); // Обновить выбранные товары при переходе на шаг 7
-        } else {
-            document.querySelector('.progress-container').style.display = 'block';
-        }
+        document.querySelector('.progress-container').style.display = stepNumber === 7 ? 'none' : 'block';
 
-        // Update active category highlighting
         updateActiveCategoryHighlighting();
-
-        // Show selected products if there are any
-        if (selectedProducts.length > 0) {
-            selectedProductsDiv.style.display = 'block';
-        } else {
-            selectedProductsDiv.style.display = 'none';
-        }
+        selectedProductsDiv.style.display = selectedProducts.length > 0 ? 'block' : 'none';
     }
 
-    // Function to sort products
-    function sortProducts(products, by, order) {
-        return products.sort((a, b) => {
-            let comparison = 0;
-            if (by === 'price') {
-                comparison = a.price - b.price;
-            } else if (by === 'name') {
-                comparison = a.name.localeCompare(b.name);
-            }
-
-            return order === 'asc' ? comparison : comparison * -1;
-        });
-    }
-
-    // Function to load products based on category
+    // Функция для загрузки продуктов на основе выбранной категории
     function loadProducts(stepNumber, category = null) {
         const productsDiv = productsDivs[stepNumber - 1];
-        productsDiv.innerHTML = ''; // Clear existing products
+        productsDiv.innerHTML = '';
 
-        let productsToDisplay = [];
+        let productsToDisplay = category ? productsData[`step${stepNumber}-${category}`] || [] : 
+            Object.values(productsData).filter(p => p.key.startsWith(`step${stepNumber}-`)).flat();
 
-        if (category) {
-            // If a category is selected, display products from that category
-            productsToDisplay = productsData[`step${stepNumber}-${category}`] || [];
-        } else {
-            // If no category is selected, display all products for the step
-            let allProductsForStep = [];
-            for (const key in productsData) {
-                if (key.startsWith(`step${stepNumber}-`)) {
-                    allProductsForStep = allProductsForStep.concat(productsData[key]);
-                }
-            }
-            productsToDisplay = allProductsForStep;
-        }
-
-        // Sort products: free products first
-        productsToDisplay.sort((a, b) => {
-    if (a.price === 0 && b.price !== 0) {
-        return -1; // a (бесплатный) должен быть перед b
-    } else if (a.price !== 0 && b.price === 0) {
-        return 1; // b (бесплатный) должен быть перед a
-    } else if (a.price === 0 && b.price === 0) {
-        return a.name.localeCompare(b.name); // Сортируем по имени, если оба бесплатные
-    } else {
-        return 0; // Порядок не важен, если оба платные
-    }
-});
-
-        // Apply sorting if a sorting method is selected
-        if (currentSort.by) {
-            productsToDisplay = sortProducts(productsToDisplay, currentSort.by, currentSort.order);
-        }
+        productsToDisplay.sort((a, b) => a.price - b.price);
 
         productsToDisplay.forEach(product => {
             const productDiv = document.createElement('div');
@@ -364,71 +298,27 @@ document.addEventListener('DOMContentLoaded', function() {
             selectButton.dataset.price = product.price;
             productDiv.appendChild(selectButton);
 
-            if (product.price > 0 && isProductSelected(product)) {
-                const addButton = document.createElement('button');
-                addButton.classList.add('add-button');
-                addButton.textContent = 'Добавить';
-                productDiv.appendChild(addButton);
-            }
-            // Update button text if the product is already selected
-            if (isProductSelected(product)) {
-                selectButton.classList.add('selected');
-            }
-
             productsDiv.appendChild(productDiv);
         });
 
-        // Add event listeners to the select buttons
-        const selectButtons = productsDiv.querySelectorAll('.select-button');
-        selectButtons.forEach(button => {
+        // Добавляем обработчики событий для кнопок выбора
+        productsDiv.querySelectorAll('.select-button').forEach(button => {
             button.addEventListener('click', selectProduct);
         });
-        const addButtons = productsDiv.querySelectorAll('.add-button');
-            addButtons.forEach(button => {
-                button.addEventListener('click', addProduct);
-        });
- 
-        // Update active category highlighting after loading products
-        updateActiveCategoryHighlighting();
-
-        // Show or hide sorting dropdown based on product count
-         const sortDropdown = document.querySelector(`#step${stepNumber} .sort-dropdown`);
-         if (sortDropdown) {
-             sortDropdown.style.display = productsToDisplay.length >= 6 ? 'inline-block' : 'none';
-         }
     }
 
-    // Function to check if a product is already selected
+    // Функция для проверки, выбран ли продукт
     function isProductSelected(product) {
         return selectedProducts.some(p => p.name === product.name);
     }
 
-    // Function to get the quantity of a product in the selected products list
+    // Функция для получения количества выбранного продукта
     function getProductQuantity(product) {
         const selectedProduct = selectedProducts.find(p => p.name === product.name);
         return selectedProduct ? selectedProduct.quantity : 0;
     }
 
-    function addProduct(event) {
-        const productName = event.target.parentNode.querySelector('.select-button').dataset.name;
-        const productPrice = parseFloat(event.target.parentNode.querySelector('.select-button').dataset.price);
-        const product = { name: productName, price: productPrice, image: 'placeholder.jpg', quantity: 1 };
-
-        const existingProductIndex = selectedProducts.findIndex(p => p.name === product.name);
-
-        if (existingProductIndex !== -1) {
-            // Product already exists, increase the quantity
-            selectedProducts[existingProductIndex].quantity++;
-        } else {
-            // Product doesn't exist, add it to the selected products
-            selectedProducts.push(product);
-        }
-        updateSelectedProductsDisplay();
-        loadProducts(currentStep, selectedCategories[currentStep]);
-    }
-
-
-    // Function to handle product selection
+    // Функция для обработки выбора продукта
     function selectProduct(event) {
         const productName = event.target.dataset.name;
         const productPrice = parseFloat(event.target.dataset.price);
@@ -438,42 +328,36 @@ document.addEventListener('DOMContentLoaded', function() {
         const isSelected = isProductSelected(product);
 
         if (isSelected) {
-            // Удаляем продукт, если он уже выбран
             const index = selectedProducts.findIndex(p => p.name === product.name);
             removeProductFromSelected(index);
             selectButton.textContent = 'Выбрать';
             selectButton.classList.remove('selected');
         } else {
-            // Добавляем продукт, если он не выбран
             selectedProducts.push(product);
             selectButton.textContent = `Удалить (${getProductQuantity(product)})`;
             selectButton.classList.add('selected');
         }
 
-        // Обновляем отображение выбранных товаров
         updateSelectedProductsDisplay();
-
-        // Перезагружаем продукты, чтобы обновить состояние кнопок
         loadProducts(currentStep, selectedCategories[currentStep]);
     }
 
-    // Function to remove a product from the selected products list
+    // Функция для удаления продукта из списка выбранных
     function removeProductFromSelected(index) {
-        const removedProduct = selectedProducts[index];
         selectedProducts.splice(index, 1);
         updateSelectedProductsDisplay();
-        loadProducts(currentStep); // Reload products to update button states
+        loadProducts(currentStep);
     }
 
-    // Function to update the display of selected products
+    // Функция для обновления отображения выбранных продуктов
     function updateSelectedProductsDisplay() {
-        selectedProductsList.innerHTML = ''; // Clear existing display
+        selectedProductsList.innerHTML = '';
         totalPrice = 0;
 
         if (selectedProducts.length > 0) {
             selectedProductsDiv.style.display = 'block';
 
-            selectedProducts.forEach((product, index) => {
+            selectedProducts.forEach(product => {
                 const selectedProductDiv = document.createElement('div');
                 selectedProductDiv.classList.add('selected-product');
 
@@ -492,410 +376,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 productPriceDiv.textContent = product.price === 0 ? 'Бесплатно' : `${product.price} рублей`;
                 selectedProductDiv.appendChild(productPriceDiv);
 
-                // Quantity control (only if price > 0)
-                if (product.price > 0) {
-                    const quantityControlDiv = document.createElement('div');
-                    quantityControlDiv.classList.add('quantity-control');
-
-                    const decreaseButton = document.createElement('button');
-                    decreaseButton.classList.add('quantity-button');
-                    decreaseButton.textContent = '-';
-                    decreaseButton.addEventListener('click', () => changeQuantity(index, -1));
-                    quantityControlDiv.appendChild(decreaseButton);
-
-                    const quantityDisplay = document.createElement('span');
-                    quantityDisplay.classList.add('quantity-display');
-                    quantityDisplay.textContent = product.quantity;
-                    quantityControlDiv.appendChild(quantityDisplay);
-
-                    const increaseButton = document.createElement('button');
-                    increaseButton.classList.add('quantity-button');
-                    increaseButton.textContent = '+';
-                    increaseButton.addEventListener('click', () => changeQuantity(index, 1));
-                    quantityControlDiv.appendChild(increaseButton);
-
-                    selectedProductDiv.appendChild(quantityControlDiv);
-                }
-
-                // Add remove button to each selected product
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Удалить';
-                removeButton.classList.add('remove-button');
-                removeButton.addEventListener('click', () => removeProductFromSelected(index));
-                selectedProductDiv.appendChild(removeButton);
-
                 selectedProductsList.appendChild(selectedProductDiv);
-
                 totalPrice += product.price * product.quantity;
             });
 
             totalPriceDisplay.textContent = totalPrice;
-        } else{
+        } else {
             selectedProductsDiv.style.display = 'none';
             totalPriceDisplay.textContent = '0';
         }
-
-        // Show or hide selected products div based on content
-        if (selectedProducts.length > 0) {
-            selectedProductsDiv.style.display = 'block';
-        } else {
-            selectedProductsDiv.style.display = 'none';
-        }
     }
 
-    // Function to change the quantity of a product
-    function changeQuantity(index, change) {
-        if (selectedProducts[index].price === 0 && change !== 0) return;
-
-        selectedProducts[index].quantity += change;
-
-        if (selectedProducts[index].quantity < 1) {
-            selectedProducts[index].quantity = 1;
-        }
-
-        updateSelectedProductsDisplay();
-    }
-
-    // Function to update active category highlighting
+    // Функция для обновления активного выделения категории
     function updateActiveCategoryHighlighting() {
-        // Remove highlighting from all category buttons
         document.querySelectorAll('.category-buttons button').forEach(button => {
             button.classList.remove('active');
         });
 
-        // Add highlighting to the active category button for the current step
         if (selectedCategories[currentStep]) {
             const activeButton = document.querySelector(`.category-buttons button[data-category="${selectedCategories[currentStep]}"]`);
-            if(activeButton) {
-            activeButton.classList.add('active');
+            if (activeButton) {
+                activeButton.classList.add('active');
             }
-}
-}
-// Event listeners for category buttons
-document.querySelectorAll('.category-buttons button').forEach(button => {
-    button.addEventListener('click', function() {
-        const category = this.dataset.category;
-        selectedCategories[currentStep] = category;
-
-        // Special handling for "no" categories
-        if (category === 'no-filler' || category === 'no-wrapping' || category === 'no-card' || category ==='no-scent') {
-            // Move to the next step
-            if (currentStep < steps.length) {
-                currentStep++;
-                showStep(currentStep);
-                updateProgress();
-                updateNextButtonText();
-                updatePrevButtonState();
-                loadProducts(currentStep);
-            }
-        } else {
-            loadProducts(currentStep, category);
         }
-
-        // Step 2: Show individual package message if "Без коробки" is selected
-        if (currentStep === 2 && category=== 'no-box') {
-            individualPackageMessage.style.display = 'block';
-        } else {
-            individualPackageMessage.style.display = 'none';
-        }
-
-        // Update active category highlighting
-        updateActiveCategoryHighlighting();
-    });
-});
-
-// Function to attach event listeners to navigation buttons for a given step
-function attachNavigationEventListeners(step) {
-    const prevButton = step.querySelector('#prev-button');
-    const nextButton = step.querySelector('#next-button');
-    const currentStepElement = document.getElementById(`step${currentStep}`);
-
-    if (prevButton) {
-        prevButton.addEventListener('click', function() {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-                updateProgress();
-                updateNextButtonText();
-                updatePrevButtonState();
-                loadProducts(currentStep);
-                // Clear active category highlighting when going back
-                delete selectedCategories[currentStep + 1];
-            }
-        });
     }
 
-    if (nextButton) {
-        nextButton.addEventListener('click', function() {
-            // Step 1 validation
-            if (currentStep === 1) {
-                const kraftBowSelected = selectedProducts.some(p => p.name.includes('Крафтовый пакет с бантом'));
-                const pvcSelected = selectedProducts.some(p => p.name.includes('ПВХ пакет'));
+    // Обработчики событий для кнопок категорий
+    document.querySelectorAll('.category-buttons button').forEach(button => {
+        button.addEventListener('click', function() {
+            const category = this.dataset.category;
+            selectedCategories[currentStep] = category;
 
-                if (!kraftBowSelected && !pvcSelected && selectedProducts.length === 0) {
-                    alert('Пожалуйста, выберите хотя бы один пакет.');
-                    return;
-                }
-            }
-
-            // Step 2 validation
-            if (currentStep === 2) {
-                const individualPackageSelected = selectedProducts.some(p => p.name.includes('Крафтовый конверт') || p.name.includes('Зип-пакет черный'));
-                const boxSelected = selectedProducts.some(p => p.name.includes('Коробка'));
-
-                if (boxSelected && individualPackageSelected) {
-                    currentStep = 3;
+            if (category === 'no-filler' || category === 'no-wrapping' || category === 'no-card' || category === 'no-scent') {
+                if (currentStep < steps.length) {
+                    currentStep++;
                     showStep(currentStep);
                     updateProgress();
-                    updateNextButtonText();
-                    updatePrevButtonState();
                     loadProducts(currentStep);
-                    return;
                 }
-
-                if (!individualPackageSelected && !boxSelected) {
-                    alert('Пожалуйста, выберите коробку или индивидуальную упаковку.');
-                    return;
-                }
-
-                if (individualPackageSelected) {
-                    currentStep = 5;
-                    showStep(currentStep);
-                    updateProgress();
-                    updateNextButtonText();
-                    updatePrevButtonState();
-                    loadProducts(currentStep);
-                    return;
-                }
+            } else {
+                loadProducts(currentStep, category);
             }
 
-            if (currentStep <steps.length) {
-                currentStep++;
-                showStep(currentStep);
-                updateProgress();
-                updateNextButtonText();
-                updatePrevButtonState();
-                loadProducts(currentStep);
+            if (currentStep === 2 && category === 'no-box') {
+                individualPackageMessage.style.display = 'block';
+            } else {
+                individualPackageMessage.style.display = 'none';
             }
 
-            // Step 7: Show selected products
-            if (currentStep === 7) {
-                updateSelectedProductsDisplay();
-            }
-        });
-    }
-
-    // Move "Назад" button to the bottom of step 7
-    if (step.id === 'step7' && prevButton) {
-        const navigationButtons = step.querySelector('.navigation-buttons');
-        if (navigationButtons) {
-            navigationButtons.appendChild(prevButton);
-        }
-    }
-}
-
-// Attach event listeners to navigation buttons for each step
-steps.forEach(step => {
-    attachNavigationEventListeners(step);
-});
-
-function updateNextButtonText() {
-    const nextButton = document.querySelector(`#step${currentStep} #next-button`);
-    if (nextButton) {
-        nextButton.textContent = currentStep === steps.length - 1 ? 'Оформление' : 'Вперед';
-    }
-}
-
-function updatePrevButtonState() {
-    const prevButton = document.querySelector(`#step${currentStep} #prev-button`);
-    if (prevButton) {
-        prevButton.disabled = currentStep === 1;
-    }
-}
-
-// Function to create sorting dropdown
-function createSortingDropdown(stepNumber) {
-    const step = document.getElementById(`step${stepNumber}`);
-    if (!step) return;
-
-    // Create the main sort button
-    const sortButton = document.createElement('button');
-    sortButton.textContent = 'Сортировка';
-    sortButton.classList.add('sort-dropdown-button', 'top-nav-button'); // Add top-nav-button class
-    if (stepNumber === 1) {
-        sortButton.classList.add('step1-sort-button'); // Add step1-sort-button class for step 1
-    }
-
-    // Create the dropdown content
-    const sortDropdownContent = document.createElement('div');
-    sortDropdownContent.classList.add('sort-dropdown-content');
-
-    // Sort by price button
-    const sortByPriceButton = document.createElement('button');
-    sortByPriceButton.textContent = 'По цене';
-    sortByPriceButton.classList.add('sort-button');
-    sortByPriceButton.addEventListener('click', () => {
-        if (currentSort.by === 'price') {
-            currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
-        } else {
-            currentSort.by = 'price';
-            currentSort.order = 'asc';
-        }
-        loadProducts(stepNumber, selectedCategories[stepNumber]);
-        sortDropdownContent.classList.remove('show'); // Hide dropdown after click
-    });
-
-    // Sort by name button
-    const sortByNameButton = document.createElement('button');
-    sortByNameButton.textContent = 'По названию';
-    sortByNameButton.classList.add('sort-button');
-    sortByNameButton.addEventListener('click', () => {
-        if (currentSort.by === 'name') {
-            currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
-        } else {
-            currentSort.by = 'name';
-            currentSort.order = 'asc';
-        }
-        loadProducts(stepNumber, selectedCategories[stepNumber]);
-        sortDropdownContent.classList.remove('show'); // Hide dropdown after click
-    });
-
-    // Reset sorting button
-    const resetSortButton = document.createElement('button');
-    resetSortButton.textContent = 'Сбросить сортировку';
-    resetSortButton.classList.add('sort-button');
-    resetSortButton.addEventListener('click', () => {
-        currentSort = { by: null, order: 'asc' };
-        loadProducts(stepNumber, selectedCategories[stepNumber]);
-        sortDropdownContent.classList.remove('show'); // Hide dropdown after click
-    });
-
-    sortDropdownContent.appendChild(sortByPriceButton);
-    sortDropdownContent.appendChild(sortByNameButton);
-    sortDropdownContent.appendChild(resetSortButton);
-
-    // Create the dropdown container
-    const sortDropdown = document.createElement('div');
-    sortDropdown.classList.add('sort-dropdown');
-
-    // Create navigation buttons
-    const prevButtonTop = document.createElement('button');
-    prevButtonTop.textContent = 'Назад';
-    prevButtonTop.classList.add('navigation-buttons', 'top-nav-button', 'prev-button-top');
-    prevButtonTop.addEventListener('click', () => {
-        const prevButton = document.querySelector(`#step${stepNumber} #prev-button`);
-        if (prevButton) {
-            prevButton.click(); // Trigger the original button's click event
-        }
-    });
-    if (stepNumber === 1) {
-        prevButtonTop.style.display = 'none';
-    }
-
-    const nextButtonTop = document.createElement('button');
-    nextButtonTop.textContent = 'Вперед';
-    nextButtonTop.classList.add('navigation-buttons', 'top-nav-button', 'next-button-top');
-    nextButtonTop.addEventListener('click', () => {
-        const nextButton = document.querySelector(`#step${stepNumber} #next-button`);
-        if (nextButton) {
-            nextButton.click(); // Trigger the original button's click event
-        }
-    });
-
-    const topNavigation = document.createElement('div');
-    topNavigation.classList.add('top-navigation');
-
-    sortDropdown.appendChild(prevButtonTop);
-    sortDropdown.appendChild(sortButton);
-    sortDropdown.appendChild(nextButtonTop);
-    sortDropdown.appendChild(sortDropdownContent);
-
-    // Insert the dropdown before the products
-    const productsDiv = document.getElementById(`products${stepNumber > 1 ? stepNumber : ''}`);
-    if (productsDiv && productsDiv.parentNode) {
-        // Find the top navigation buttons container
-        const topNavigationContainer = step.querySelector('.top-navigation');
-        if (!topNavigationContainer) {
-            const newTopNavigationContainer = document.createElement('div');
-            newTopNavigationContainer.classList.add('top-navigation');
-            productsDiv.parentNode.insertBefore(newTopNavigationContainer, productsDiv);
-            newTopNavigationContainer.appendChild(sortDropdown);
-        }
-    }
-
-    // Event listener to toggle dropdown visibility
-    sortButton.addEventListener('click', () => {
-        sortDropdownContent.classList.toggle('show');
-    });
-
-    // Close the dropdown if the user clicks outside of it
-    window.addEventListener('click', (event) => {
-        if (!event.target.closest('.sort-dropdown')) {
-            sortDropdownContent.classList.remove('show');
-        }
-    });
-}
-
-// Function to create "Back to Top" button
-function createBackToTopButton() {
-    const backToTopButton = document.createElement('button');
-    backToTopButton.textContent = 'Вверх';
-    backToTopButton.classList.add('back-to-top-button');
-    backToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+            updateActiveCategoryHighlighting();
         });
     });
-    document.body.appendChild(backToTopButton);
 
-    // Show/hide the button based on scroll position
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTopButton.style.display = 'block';
-        } else {
-            backToTopButton.style.display = 'none';
-        }
-    });
-}
-
-// Call createSortingDropdown for each step
-steps.forEach((step, index) => {
-    createSortingDropdown(index + 1);
-});
-
-// Create "Back to Top" button
-createBackToTopButton();
-
-// Function to clear all selections and reset to step 1
-function clearAllSelections() {
-    selectedProducts = [];
-    selectedCategories = {};
-    currentStep = 1;
-    updateProgress();
-    updateNextButtonText();
-    updatePrevButtonState();
+    // Начальная настройка
     showStep(currentStep);
-    loadProducts(currentStep);
-    updateSelectedProductsDisplay();
-}
-
-// Add "Clear All" button on step 7
-const step7 = document.getElementById('step7');
-const clearAllButton = document.createElement('button');
-clearAllButton.textContent = 'Очистить все';
-clearAllButton.classList.add('clear-all-button');
-clearAllButton.addEventListener('click', clearAllSelections);
-if (step7) {
-    const selectedProductsDiv = step7.querySelector('#selected-products');
-    if (selectedProductsDiv) {
-        selectedProductsDiv.insertBefore(clearAllButton, selectedProductsDiv.firstChild);
-    }
-}
-
-// Initial setup
-showStep(currentStep);
-updateProgress();
-updateNextButtonText();
-updatePrevButtonState();
+    updateProgress();
 });
