@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="vk:app_id" content="53542224">
-    <script>function initBridge() { 
-    vkBridge.send('VKWebAppInit');
-}</script>
-<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js" onload="initBridge()"></script>
     <title>Конфигуратор Упаковки</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creadon:wght@400;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <script>
+        function initBridge() {
+            vkBridge.send('VKWebAppInit');
+        }
+    </script>
+    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js" onload="initBridge()"></script>
 </head>
 <body>
     <div class="container">
@@ -45,7 +48,7 @@
 
         <!-- Step 2: Выбор коробки или индивидуальной упаковки -->
         <div class="step" id="step2">
-            <h2>Шаг 2: Выберите коробку или индивидуальной упаковки</h2>
+            <h2>Шаг 2: Выберите коробку или индивидуальную упаковку</h2>
             <div class="category-buttons">
                 <button data-category="no-box">Без коробки (индивидуальная упаковка)</button>
                 <button data-category="kraft-corrugated">Гофрокартон</button>
@@ -131,7 +134,7 @@
                 <button data-category="woody-floral">Древесные цветочные</button>
                 <button data-category="woody-musky">Древесные мускусные</button>
             </div>
-             <div class="products" id="products6">
+            <div class="products" id="products6">
                 <!-- Products will be loaded here -->
             </div>
             <div class="navigation-buttons">
@@ -158,6 +161,5 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="https://vk.com/js/api/openapi.js?168" type="text/javascript"></script>
 </body>
 </html>
