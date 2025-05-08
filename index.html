@@ -6,13 +6,13 @@
     <meta name="vk:app_id" content="53542224">
     <title>Конфигуратор Упаковки</title>
     <link rel="stylesheet" href="style.css">
-    
-    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+
+    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js" defer></script>
     <script>
         function initBridge() {
             vkBridge.send('VKWebAppInit');
         }
-        window.onload = initBridge; // Инициализация после загрузки окна
+        window.onload = initBridge; // Call initBridge after window loads
     </script>
 </head>
 <body>
@@ -157,6 +157,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
