@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="vk:app_id" content="53542224">
     <title>Конфигуратор Упаковки</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Creadon:wght@400;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
+    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
     <script>
         function initBridge() {
             vkBridge.send('VKWebAppInit');
         }
+        window.onload = initBridge; // Инициализация после загрузки окна
     </script>
-    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js" onload="initBridge()"></script>
 </head>
 <body>
     <div class="container">
@@ -28,7 +26,6 @@
         <div class="step-count">
             Шаг <span id="current-step">1</span> из <span id="step-count">7</span>
         </div>
-
         <!-- Step 1: Выбор пакета -->
         <div class="step" id="step1">
             <h2>Шаг 1: Выберите пакет</h2>
