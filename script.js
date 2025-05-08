@@ -24,9 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedCategories = {}; // Объект для хранения выбранных категорий на каждом шаге
     let currentSort = { by: null, order: 'asc' }; // Track current sorting
 
-    // Инициализация VK API
-    VK.init({ apiId: 53542224 }); // Укажите ваш ID приложения
-
     // Данные о товарах
     const products = {
         'step1-kraft-bow': [
