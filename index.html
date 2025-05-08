@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конфигуратор Упаковки</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creadon:wght@400;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Конфигуратор Упаковки</h1>
+
+        <div class="progress-container">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="step-count">
+            Шаг <span id="current-step">1</span> из <span id="step-count">7</span>
+        </div>
+
+        <!-- Step 1: Выбор пакета -->
+        <div class="step" id="step1">
+            <h2>Шаг 1: Выберите пакет</h2>
+            <div class="category-buttons">
+                <button data-category="kraft-bow">Крафтовый с бантом</button>
+                <button data-category="pvc">ПВХ</button>
+                <button data-category="kraft-print">Крафтовый с принтом</button>
+                <button data-category="cardboard">Из картона</button>
+            </div>
+            <div class="products" id="products">
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Выбор коробки или индивидуальной упаковки -->
+        <div class="step" id="step2">
+            <h2>Шаг 2: Выберите коробку или индивидуальной упаковки</h2>
+            <div class="category-buttons">
+                <button data-category="no-box">Без коробки (индивидуальная упаковка)</button>
+                <button data-category="kraft-corrugated">Гофрокартон</button>
+                <button data-category="thick-cardboard">Толстый картон</button>
+            </div>
+            <div id="individual-package-message">
+                Вы выбрали индивидуальную упаковку. Далее вы перейдете к выбору открытки.
+            </div>
+            <div class="products" id="products2">
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Выбор наполнителя -->
+        <div class="step" id="step3">
+            <h2>Шаг 3: Выберите наполнитель</h2>
+            <div class="category-buttons">
+                <button data-category="no-filler">Без наполнителя</button>
+                <button data-category="tissue-paper">Бумага тишью подложка</button>
+                <button data-category="corrugated-paper">Гофрированный наполнитель</button>
+                <button data-category="tissue">Тишью наполнитель</button>
+                <button data-category="foam">Пенопластовый</button>
+                <button data-category="feathers">Из перьев</button>
+                <button data-category="hearts">Атласные сердца</button>
+            </div>
+            <div class="products" id="products3">
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Выбор оберточной бумаги -->
+        <div class="step" id="step4">
+            <h2>Шаг 4: Выберите оберточную бумагу</h2>
+            <div class="category-buttons">
+                <button data-category="no-wrapping">Без оберточной бумаги</button>
+                <button data-category="kraft-plain">Крафтовая без цвета</button>
+                <button data-category="kraft-print">Крафтовая с принтом</button>
+                <button data-category="wrapping-paper">Оберточная с принтом</button>
+            </div>
+            <div class="products" id="products4">
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Выбор открытки -->
+        <div class="step" id="step5">
+            <h2>Шаг 5: Выберите открытку</h2>
+            <div class="category-buttons">
+                <button data-category="no-card">Без открытки</button>
+                <button data-category="mini-card">Мини открытка</button>
+                <button data-category="mini-design">Мини с дизайном</button>
+                <button data-category="3d-card">3D открытка</button>
+                <button data-category="audio-card">Аудио открытка</button>
+            </div>
+            <div class="products" id="products5">
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Step 6: Выбор аромата -->
+        <div class="step" id="step6">
+            <h2>Шаг 6: Выберите аромат</h2>
+            <div class="category-buttons step6-hide">
+                <button data-category="no-scent">Без аромата</button>
+                <button data-category="fruity-floral">Фруктово-цветочный</button>
+                <button data-category="woody-fruity">Древесно-фруктовый</button>
+                <button data-category="woody-floral">Древесные цветочные</button>
+                <button data-category="woody-musky">Древесные мускусные</button>
+            </div>
+             <div class="products" id="products6">
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+                <button id="next-button">Вперед</button>
+            </div>
+        </div>
+
+        <!-- Step 7: Оформление заказа -->
+        <div class="step" id="step7">
+            <h2>Шаг 7: Оформление заказа</h2>
+            <div id="selected-products">
+                <h2>Выбранные товары:</h2>
+                <div id="selected-products-list">
+                    <!-- Selected products will be displayed here -->
+                </div>
+                <p>Итоговая стоимость: <span id="total-price">0</span> рублей</p>
+                <button id="checkout-button">Оформить заказ</button>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-button">Назад</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
