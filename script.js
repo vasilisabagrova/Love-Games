@@ -846,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 userId: userId // Используем полученный ID пользователя
                             };
 
-                            fetch('https://lovegamesv.temp.swtest.ru/checkout.php', { // Ваш URL
+                            fetch('https://love-games-sex-shop.kesug.com/checkout.php', { // Ваш URL
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
