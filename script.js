@@ -848,6 +848,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             fetch('https://love-games-sex-shop.kesug.com/checkout.php', { // Ваш URL
                                 method: 'POST',
+                                mode: 'no-cors',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
