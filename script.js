@@ -816,63 +816,68 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedProductsDisplay();
     }
 
-   const step7 = document.getElementById('step7');
-    if (step7) {
-        const selectedProductsDiv = step7.querySelector('#selected-products');
-        if (selectedProductsDiv) {
-            const cartActionsDiv = document.createElement('div');
-            cartActionsDiv.classList.add('cart-actions');
+   // Шаг 7: Оформление заказа
+const step7 = document.getElementById('step7');
+if (step7) {
+    const selectedProductsDiv = step7.querySelector('#selected-products');
+    if (selectedProductsDiv) {
+        const cartActionsDiv = document.createElement('div');
+        cartActionsDiv.classList.add('cart-actions');
 
-            const clearAllButton = document.createElement('button');
-            clearAllButton.textContent = 'Очистить все';
-            clearAllButton.classList.add('clear-all-button');
-            clearAllButton.addEventListener('click', clearAllSelections);
+        const clearAllButton = document.createElement('button');
+        clearAllButton.textContent = 'Очистить все';
+        clearAllButton.classList.add('clear-all-button');
+        clearAllButton.addEventListener('click', clearAllSelections);
 
-            cartActionsDiv.appendChild(clearAllButton);
+        cartActionsDiv.appendChild(clearAllButton);
 
-            const checkoutButton = document.getElementById('checkout-button');
+        const checkoutButton = document.getElementById('checkout-button');
 
-            if (checkoutButton) {
-                cartActionsDiv.appendChild(checkoutButton);
+        if (checkoutButton) {
+            cartActionsDiv.appendChild(checkoutButton);
 
-                checkoutButton.addEventListener('click', function() {
-                    vkBridge.send("VKWebAppGetUserInfo", {})
+            checkoutButton.addEventListener('click', function() {
+                vkBridge.send("VKWebAppGetUserInfo", {})
+                    .then(data => {
+                        const userId = data.id; // Получаем ID пользователя
+
+                        const orderDetails = {
+                            products: selectedProducts,
+                            totalPrice: totalPrice,
+                            userId: userId // Используем полученный ID пользователя
+                        };
+
+                        fetch('https://love-games-sex-shop.kesug.com/checkout.php', { // Ваш URL
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(orderDetails)
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            const userId = data.id; // Получаем ID пользователя
-
-                            const orderDetails = {
-                                products: selectedProducts,
-                                totalPrice: totalPrice,
-                                userId: userId // Используем полученный ID пользователя
-                            };
-
-                            fetch('https://love-games-sex-shop.kesug.com/checkout.php', { // Ваш URL
-                                method: 'POST',
-                                mode: 'no-cors',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(orderDetails)
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.response) {
-                                    alert("Заказ успешно оформлен! Мы свяжемся с вами в ближайшее время.");
-                                } else {
-                                    alert("Не удалось отправить подтверждение заказа.");
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert("Произошла ошибка при отправке заказа.");
-                            });
+                            if (data.response) {
+                                alert("Заказ успешно оформлен! Мы свяжемся с вами в ближайшее время.");
+                            } else {
+                                alert("Не удалось отправить подтверждение заказа.");
+                            }
                         })
                         .catch(error => {
-                            console.error("Error getting user info:", error);
-                            alert("Не удалось получить информацию о пользователе. Пожалуйста, попробуйте позже.");
+                            console.error('Ошибка:', error);
+                            alert("Произошла ошибка при отправке заказа.");
                         });
-                });
-            }
+                    })
+                    .catch(error => {
+                        console.error("Ошибка получения информации о пользователе:", error);
+                        alert("Не удалось получить информацию о пользователе. Пожалуйста, попробуйте позже.");
+                    });
+            });
+        }
 
             selectedProductsDiv.appendChild(cartActionsDiv);
         }
