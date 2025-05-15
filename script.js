@@ -846,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 userId: userId // Используем полученный ID пользователя
                             };
 
-                            fetch('http://lovegamesv.temp.swtest.ru/checkout.php', { // Ваш URL
+                            fetch('https://lovegamesv.temp.swtest.ru/checkout.php', { // Ваш URL
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
