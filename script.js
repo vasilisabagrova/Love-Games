@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedProductsDisplay();
     }
 
-       const step7 = document.getElementById('step7');
+   const step7 = document.getElementById('step7');
     if (step7) {
         const selectedProductsDiv = step7.querySelector('#selected-products');
         if (selectedProductsDiv) {
@@ -836,56 +836,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 cartActionsDiv.appendChild(checkoutButton);
 
                 checkoutButton.addEventListener('click', function() {
-                    let orderDetails = "Содержимое корзины:\n";
-                    selectedProducts.forEach(product => {
-                        orderDetails += `Название: ${product.name}\n`;
-                        orderDetails += `Количество: ${product.quantity}\n`;
-                        orderDetails += `Цена за шт: ${product.price} ₽\n`;
-                        orderDetails += `------------------------\n`;
-                    });
-                    orderDetails += `Итоговая стоимость: ${totalPrice} ₽`;
-
-                    const groupId = 218254108;
-
                     vkBridge.send("VKWebAppGetUserInfo", {})
                         .then(data => {
                             const userId = data.id; // Получаем ID пользователя
 
-                            const sendMessage = (userId, message, groupId) => {
-                                return vkBridge.send("VKWebAppSendMessage", {
-                                    "user_id": userId,
-                                    "message": message,
-                                    "group_id": groupId
-                                });
+                            const orderDetails = {
+                                products: selectedProducts,
+                                totalPrice: totalPrice,
+                                userId: userId // Используем полученный ID пользователя
                             };
 
-                            sendMessage(userId, orderDetails, groupId)
-                                .then(data => {
-                                    if (data.result) {
-                                        console.log("Message sent to user successfully!");
-                                        alert("Заказ успешно оформлен! Мы свяжемся с вами в ближайшее время.");
-                                    } else {
-                                        console.error("Failed to send message to user:", data);
-                                        alert("Не удалось отправить подтверждение заказа. Пожалуйста, свяжитесь с нами.");
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error("Error sending message to user:", error);
-                                    alert("Произошла ошибка при отправке подтверждения заказа. Пожалуйста, свяжитесь с нами.");
-                                });
-
-                            const communityUserId = 648647881; // ID администратора сообщества
-                            sendMessage(communityUserId, `Новый заказ!\n${orderDetails}`, groupId)
-                                .then(data => {
-                                    if (data.result) {
-                                        console.log("Message sent to community successfully!");
-                                    } else {
-                                        console.warn("Failed to send message to community:", data);
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error("Error sending message to community:", error);
-                                });
+                            fetch('http://lovegamesv.temp.swtest.ru/checkout.php', { // Ваш URL
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(orderDetails)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.response) {
+                                    alert("Заказ успешно оформлен! Мы свяжемся с вами в ближайшее время.");
+                                } else {
+                                    alert("Не удалось отправить подтверждение заказа.");
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert("Произошла ошибка при отправке заказа.");
+                            });
                         })
                         .catch(error => {
                             console.error("Error getting user info:", error);
