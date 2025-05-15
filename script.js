@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedProductsDisplay();
     }
 
-    const step7 = document.getElementById('step7');
+       const step7 = document.getElementById('step7');
     if (step7) {
         const selectedProductsDiv = step7.querySelector('#selected-products');
         if (selectedProductsDiv) {
@@ -849,7 +849,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     vkBridge.send("VKWebAppGetUserInfo", {})
                         .then(data => {
-                            const userId = data.id;
+                            const userId = data.id; // Получаем ID пользователя
 
                             const sendMessage = (userId, message, groupId) => {
                                 return vkBridge.send("VKWebAppSendMessage", {
@@ -874,8 +874,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     alert("Произошла ошибка при отправке подтверждения заказа. Пожалуйста, свяжитесь с нами.");
                                 });
 
-                            // Replace 'YOUR_COMMUNITY_USER_ID' with a community admin's ID
-                            const communityUserId = 648647881; // Replace with a community admin's ID
+                            const communityUserId = 648647881; // ID администратора сообщества
                             sendMessage(communityUserId, `Новый заказ!\n${orderDetails}`, groupId)
                                 .then(data => {
                                     if (data.result) {
